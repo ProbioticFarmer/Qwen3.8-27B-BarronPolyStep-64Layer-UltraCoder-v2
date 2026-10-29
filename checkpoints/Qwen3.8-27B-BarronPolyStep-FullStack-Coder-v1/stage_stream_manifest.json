@@ -1,0 +1,162 @@
+[
+  {
+    "stage": 1,
+    "qwen_layer": 3,
+    "qwen_shard": "model-00001-of-00018.safetensors",
+    "deepseek_layer": 2,
+    "deepseek_shard": "model-00002-of-00019.safetensors",
+    "qwen_act_rms": 0.011950328946113586,
+    "deepseek_act_rms": 0.0508301742374897,
+    "elapsed_sec": 0.4797837734222412
+  },
+  {
+    "stage": 2,
+    "qwen_layer": 7,
+    "qwen_shard": "model-00002-of-00018.safetensors",
+    "deepseek_layer": 5,
+    "deepseek_shard": "model-00003-of-00019.safetensors",
+    "qwen_act_rms": 0.013634592294692993,
+    "deepseek_act_rms": 0.05069124698638916,
+    "elapsed_sec": 0.3926658630371094
+  },
+  {
+    "stage": 3,
+    "qwen_layer": 11,
+    "qwen_shard": "model-00004-of-00018.safetensors",
+    "deepseek_layer": 8,
+    "deepseek_shard": "model-00004-of-00019.safetensors",
+    "qwen_act_rms": 0.014475176110863686,
+    "deepseek_act_rms": 0.050692930817604065,
+    "elapsed_sec": 0.39942312240600586
+  },
+  {
+    "stage": 4,
+    "qwen_layer": 15,
+    "qwen_shard": "model-00005-of-00018.safetensors",
+    "deepseek_layer": 10,
+    "deepseek_shard": "model-00005-of-00019.safetensors",
+    "qwen_act_rms": 0.014863491989672184,
+    "deepseek_act_rms": 0.050667691975831985,
+    "elapsed_sec": 0.2747478485107422
+  },
+  {
+    "stage": 5,
+    "qwen_layer": 19,
+    "qwen_shard": "model-00006-of-00018.safetensors",
+    "deepseek_layer": 13,
+    "deepseek_shard": "model-00007-of-00019.safetensors",
+    "qwen_act_rms": 0.015384403988718987,
+    "deepseek_act_rms": 0.050828758627176285,
+    "elapsed_sec": 0.2953300476074219
+  },
+  {
+    "stage": 6,
+    "qwen_layer": 23,
+    "qwen_shard": "model-00007-of-00018.safetensors",
+    "deepseek_layer": 16,
+    "deepseek_shard": "model-00008-of-00019.safetensors",
+    "qwen_act_rms": 0.015659218654036522,
+    "deepseek_act_rms": 0.051325470209121704,
+    "elapsed_sec": 0.21785187721252441
+  },
+  {
+    "stage": 7,
+    "qwen_layer": 27,
+    "qwen_shard": "model-00008-of-00018.safetensors",
+    "deepseek_layer": 18,
+    "deepseek_shard": "model-00009-of-00019.safetensors",
+    "qwen_act_rms": 0.015961725264787674,
+    "deepseek_act_rms": 0.052264079451560974,
+    "elapsed_sec": 0.24537229537963867
+  },
+  {
+    "stage": 8,
+    "qwen_layer": 31,
+    "qwen_shard": "model-00009-of-00018.safetensors",
+    "deepseek_layer": 21,
+    "deepseek_shard": "model-00010-of-00019.safetensors",
+    "qwen_act_rms": 0.016911376267671585,
+    "deepseek_act_rms": 0.05787084251642227,
+    "elapsed_sec": 0.22136807441711426
+  },
+  {
+    "stage": 9,
+    "qwen_layer": 35,
+    "qwen_shard": "model-00010-of-00018.safetensors",
+    "deepseek_layer": 24,
+    "deepseek_shard": "model-00011-of-00019.safetensors",
+    "qwen_act_rms": 0.01727403700351715,
+    "deepseek_act_rms": 0.05899299681186676,
+    "elapsed_sec": 0.20918011665344238
+  },
+  {
+    "stage": 10,
+    "qwen_layer": 39,
+    "qwen_shard": "model-00011-of-00018.safetensors",
+    "deepseek_layer": 26,
+    "deepseek_shard": "model-00012-of-00019.safetensors",
+    "qwen_act_rms": 0.01745101995766163,
+    "deepseek_act_rms": 0.06006856635212898,
+    "elapsed_sec": 0.22012114524841309
+  },
+  {
+    "stage": 11,
+    "qwen_layer": 43,
+    "qwen_shard": "model-00012-of-00018.safetensors",
+    "deepseek_layer": 29,
+    "deepseek_shard": "model-00013-of-00019.safetensors",
+    "qwen_act_rms": 0.017821302637457848,
+    "deepseek_act_rms": 0.06182856485247612,
+    "elapsed_sec": 0.18754887580871582
+  },
+  {
+    "stage": 12,
+    "qwen_layer": 47,
+    "qwen_shard": "model-00013-of-00018.safetensors",
+    "deepseek_layer": 32,
+    "deepseek_shard": "model-00015-of-00019.safetensors",
+    "qwen_act_rms": 0.018394574522972107,
+    "deepseek_act_rms": 0.06419401615858078,
+    "elapsed_sec": 0.19829511642456055
+  },
+  {
+    "stage": 13,
+    "qwen_layer": 51,
+    "qwen_shard": "model-00014-of-00018.safetensors",
+    "deepseek_layer": 34,
+    "deepseek_shard": "model-00016-of-00019.safetensors",
+    "qwen_act_rms": 0.019011447206139565,
+    "deepseek_act_rms": 0.06767388433218002,
+    "elapsed_sec": 0.2679431438446045
+  },
+  {
+    "stage": 14,
+    "qwen_layer": 55,
+    "qwen_shard": "model-00015-of-00018.safetensors",
+    "deepseek_layer": 37,
+    "deepseek_shard": "model-00017-of-00019.safetensors",
+    "qwen_act_rms": 0.020218832418322563,
+    "deepseek_act_rms": 0.07216420024633408,
+    "elapsed_sec": 0.20888590812683105
+  },
+  {
+    "stage": 15,
+    "qwen_layer": 59,
+    "qwen_shard": "model-00016-of-00018.safetensors",
+    "deepseek_layer": 40,
+    "deepseek_shard": "model-00018-of-00019.safetensors",
+    "qwen_act_rms": 0.02726631425321102,
+    "deepseek_act_rms": 0.08863773196935654,
+    "elapsed_sec": 0.23573708534240723
+  },
+  {
+    "stage": 16,
+    "qwen_layer": 63,
+    "qwen_shard": "model-00017-of-00018.safetensors",
+    "deepseek_layer": 42,
+    "deepseek_shard": "model-00019-of-00019.safetensors",
+    "qwen_act_rms": 0.034493137151002884,
+    "deepseek_act_rms": 0.16385629773139954,
+    "elapsed_sec": 0.24148201942443848
+  }
+]

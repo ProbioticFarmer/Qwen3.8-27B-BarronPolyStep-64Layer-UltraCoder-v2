@@ -1,0 +1,642 @@
+[
+  {
+    "qwen_layer": 0,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00001-of-00018.safetensors",
+    "deepseek_layer": 0,
+    "deepseek_shard": "model-00001-of-00019.safetensors",
+    "qwen_act_rms": 0.005487901624292135,
+    "deepseek_act_rms": 0.051517270505428314,
+    "elapsed_sec": 0.397960901260376
+  },
+  {
+    "qwen_layer": 1,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00001-of-00018.safetensors",
+    "deepseek_layer": 1,
+    "deepseek_shard": "model-00001-of-00019.safetensors",
+    "qwen_act_rms": 0.005489211529493332,
+    "deepseek_act_rms": 0.05146118253469467,
+    "elapsed_sec": 0.2172832489013672
+  },
+  {
+    "qwen_layer": 2,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00001-of-00018.safetensors",
+    "deepseek_layer": 1,
+    "deepseek_shard": "model-00001-of-00019.safetensors",
+    "qwen_act_rms": 0.005490514915436506,
+    "deepseek_act_rms": 0.05146118253469467,
+    "elapsed_sec": 0.1565392017364502
+  },
+  {
+    "qwen_layer": 3,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00001-of-00018.safetensors",
+    "deepseek_layer": 2,
+    "deepseek_shard": "model-00002-of-00019.safetensors",
+    "qwen_act_rms": 0.0064133838750422,
+    "deepseek_act_rms": 0.05132768303155899,
+    "elapsed_sec": 0.23286700248718262
+  },
+  {
+    "qwen_layer": 4,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00002-of-00018.safetensors",
+    "deepseek_layer": 3,
+    "deepseek_shard": "model-00002-of-00019.safetensors",
+    "qwen_act_rms": 0.006413745228201151,
+    "deepseek_act_rms": 0.05072106420993805,
+    "elapsed_sec": 0.21639227867126465
+  },
+  {
+    "qwen_layer": 5,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00002-of-00018.safetensors",
+    "deepseek_layer": 3,
+    "deepseek_shard": "model-00002-of-00019.safetensors",
+    "qwen_act_rms": 0.006413967814296484,
+    "deepseek_act_rms": 0.05072106420993805,
+    "elapsed_sec": 0.20138120651245117
+  },
+  {
+    "qwen_layer": 6,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00002-of-00018.safetensors",
+    "deepseek_layer": 4,
+    "deepseek_shard": "model-00003-of-00019.safetensors",
+    "qwen_act_rms": 0.006413842551410198,
+    "deepseek_act_rms": 0.05031827092170715,
+    "elapsed_sec": 0.14989900588989258
+  },
+  {
+    "qwen_layer": 7,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00002-of-00018.safetensors",
+    "deepseek_layer": 5,
+    "deepseek_shard": "model-00003-of-00019.safetensors",
+    "qwen_act_rms": 0.0067300498485565186,
+    "deepseek_act_rms": 0.0501975417137146,
+    "elapsed_sec": 0.1451740264892578
+  },
+  {
+    "qwen_layer": 8,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00005-of-00018.safetensors",
+    "deepseek_layer": 5,
+    "deepseek_shard": "model-00003-of-00019.safetensors",
+    "qwen_act_rms": 0.006730544846504927,
+    "deepseek_act_rms": 0.0501975417137146,
+    "elapsed_sec": 0.11460304260253906
+  },
+  {
+    "qwen_layer": 9,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00005-of-00018.safetensors",
+    "deepseek_layer": 6,
+    "deepseek_shard": "model-00004-of-00019.safetensors",
+    "qwen_act_rms": 0.006731165107339621,
+    "deepseek_act_rms": 0.04996687173843384,
+    "elapsed_sec": 0.14771199226379395
+  },
+  {
+    "qwen_layer": 10,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00004-of-00018.safetensors",
+    "deepseek_layer": 7,
+    "deepseek_shard": "model-00004-of-00019.safetensors",
+    "qwen_act_rms": 0.006731447763741016,
+    "deepseek_act_rms": 0.04994561895728111,
+    "elapsed_sec": 0.1471569538116455
+  },
+  {
+    "qwen_layer": 11,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00004-of-00018.safetensors",
+    "deepseek_layer": 7,
+    "deepseek_shard": "model-00004-of-00019.safetensors",
+    "qwen_act_rms": 0.0068686348386108875,
+    "deepseek_act_rms": 0.04994561895728111,
+    "elapsed_sec": 0.1137552261352539
+  },
+  {
+    "qwen_layer": 12,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00004-of-00018.safetensors",
+    "deepseek_layer": 8,
+    "deepseek_shard": "model-00004-of-00019.safetensors",
+    "qwen_act_rms": 0.006868715398013592,
+    "deepseek_act_rms": 0.04984472692012787,
+    "elapsed_sec": 0.16894006729125977
+  },
+  {
+    "qwen_layer": 13,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00004-of-00018.safetensors",
+    "deepseek_layer": 9,
+    "deepseek_shard": "model-00005-of-00019.safetensors",
+    "qwen_act_rms": 0.006868817377835512,
+    "deepseek_act_rms": 0.0497916117310524,
+    "elapsed_sec": 0.1578369140625
+  },
+  {
+    "qwen_layer": 14,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00004-of-00018.safetensors",
+    "deepseek_layer": 9,
+    "deepseek_shard": "model-00005-of-00019.safetensors",
+    "qwen_act_rms": 0.006869195494800806,
+    "deepseek_act_rms": 0.0497916117310524,
+    "elapsed_sec": 0.11348199844360352
+  },
+  {
+    "qwen_layer": 15,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00005-of-00018.safetensors",
+    "deepseek_layer": 10,
+    "deepseek_shard": "model-00005-of-00019.safetensors",
+    "qwen_act_rms": 0.006937844678759575,
+    "deepseek_act_rms": 0.049732353538274765,
+    "elapsed_sec": 0.14601802825927734
+  },
+  {
+    "qwen_layer": 16,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00006-of-00018.safetensors",
+    "deepseek_layer": 11,
+    "deepseek_shard": "model-00006-of-00019.safetensors",
+    "qwen_act_rms": 0.006937869358807802,
+    "deepseek_act_rms": 0.04967866092920303,
+    "elapsed_sec": 0.14868402481079102
+  },
+  {
+    "qwen_layer": 17,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00006-of-00018.safetensors",
+    "deepseek_layer": 11,
+    "deepseek_shard": "model-00006-of-00019.safetensors",
+    "qwen_act_rms": 0.006937811616808176,
+    "deepseek_act_rms": 0.04967866092920303,
+    "elapsed_sec": 0.12072491645812988
+  },
+  {
+    "qwen_layer": 18,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00006-of-00018.safetensors",
+    "deepseek_layer": 12,
+    "deepseek_shard": "model-00006-of-00019.safetensors",
+    "qwen_act_rms": 0.006937446538358927,
+    "deepseek_act_rms": 0.049726083874702454,
+    "elapsed_sec": 0.1461811065673828
+  },
+  {
+    "qwen_layer": 19,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00006-of-00018.safetensors",
+    "deepseek_layer": 13,
+    "deepseek_shard": "model-00007-of-00019.safetensors",
+    "qwen_act_rms": 0.0070592849515378475,
+    "deepseek_act_rms": 0.04972082003951073,
+    "elapsed_sec": 0.16445708274841309
+  },
+  {
+    "qwen_layer": 20,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00006-of-00018.safetensors",
+    "deepseek_layer": 13,
+    "deepseek_shard": "model-00007-of-00019.safetensors",
+    "qwen_act_rms": 0.00705953361466527,
+    "deepseek_act_rms": 0.04972082003951073,
+    "elapsed_sec": 0.12937116622924805
+  },
+  {
+    "qwen_layer": 21,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00007-of-00018.safetensors",
+    "deepseek_layer": 14,
+    "deepseek_shard": "model-00007-of-00019.safetensors",
+    "qwen_act_rms": 0.00706072710454464,
+    "deepseek_act_rms": 0.049719542264938354,
+    "elapsed_sec": 0.14823007583618164
+  },
+  {
+    "qwen_layer": 22,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00007-of-00018.safetensors",
+    "deepseek_layer": 15,
+    "deepseek_shard": "model-00007-of-00019.safetensors",
+    "qwen_act_rms": 0.00706219719722867,
+    "deepseek_act_rms": 0.04974021762609482,
+    "elapsed_sec": 0.14697003364562988
+  },
+  {
+    "qwen_layer": 23,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00007-of-00018.safetensors",
+    "deepseek_layer": 15,
+    "deepseek_shard": "model-00007-of-00019.safetensors",
+    "qwen_act_rms": 0.007141930982470512,
+    "deepseek_act_rms": 0.04974021762609482,
+    "elapsed_sec": 0.11298322677612305
+  },
+  {
+    "qwen_layer": 24,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00008-of-00018.safetensors",
+    "deepseek_layer": 16,
+    "deepseek_shard": "model-00008-of-00019.safetensors",
+    "qwen_act_rms": 0.007143584545701742,
+    "deepseek_act_rms": 0.049769025295972824,
+    "elapsed_sec": 0.15140914916992188
+  },
+  {
+    "qwen_layer": 25,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00008-of-00018.safetensors",
+    "deepseek_layer": 17,
+    "deepseek_shard": "model-00008-of-00019.safetensors",
+    "qwen_act_rms": 0.0071454946883022785,
+    "deepseek_act_rms": 0.049815233796834946,
+    "elapsed_sec": 0.14654898643493652
+  },
+  {
+    "qwen_layer": 26,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00008-of-00018.safetensors",
+    "deepseek_layer": 17,
+    "deepseek_shard": "model-00008-of-00019.safetensors",
+    "qwen_act_rms": 0.00714705977588892,
+    "deepseek_act_rms": 0.049815233796834946,
+    "elapsed_sec": 0.11432123184204102
+  },
+  {
+    "qwen_layer": 27,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00008-of-00018.safetensors",
+    "deepseek_layer": 18,
+    "deepseek_shard": "model-00009-of-00019.safetensors",
+    "qwen_act_rms": 0.0072228265926241875,
+    "deepseek_act_rms": 0.04988360404968262,
+    "elapsed_sec": 0.148820161819458
+  },
+  {
+    "qwen_layer": 28,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00008-of-00018.safetensors",
+    "deepseek_layer": 19,
+    "deepseek_shard": "model-00009-of-00019.safetensors",
+    "qwen_act_rms": 0.007225988898426294,
+    "deepseek_act_rms": 0.049796320497989655,
+    "elapsed_sec": 0.142258882522583
+  },
+  {
+    "qwen_layer": 29,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00009-of-00018.safetensors",
+    "deepseek_layer": 19,
+    "deepseek_shard": "model-00009-of-00019.safetensors",
+    "qwen_act_rms": 0.007229596842080355,
+    "deepseek_act_rms": 0.049796320497989655,
+    "elapsed_sec": 0.11345529556274414
+  },
+  {
+    "qwen_layer": 30,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00009-of-00018.safetensors",
+    "deepseek_layer": 20,
+    "deepseek_shard": "model-00010-of-00019.safetensors",
+    "qwen_act_rms": 0.00723279919475317,
+    "deepseek_act_rms": 0.05009082704782486,
+    "elapsed_sec": 0.14499926567077637
+  },
+  {
+    "qwen_layer": 31,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00009-of-00018.safetensors",
+    "deepseek_layer": 21,
+    "deepseek_shard": "model-00010-of-00019.safetensors",
+    "qwen_act_rms": 0.007413938175886869,
+    "deepseek_act_rms": 0.050183720886707306,
+    "elapsed_sec": 0.14323186874389648
+  },
+  {
+    "qwen_layer": 32,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00010-of-00018.safetensors",
+    "deepseek_layer": 21,
+    "deepseek_shard": "model-00010-of-00019.safetensors",
+    "qwen_act_rms": 0.007416596170514822,
+    "deepseek_act_rms": 0.050183720886707306,
+    "elapsed_sec": 0.11120414733886719
+  },
+  {
+    "qwen_layer": 33,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00010-of-00018.safetensors",
+    "deepseek_layer": 22,
+    "deepseek_shard": "model-00010-of-00019.safetensors",
+    "qwen_act_rms": 0.007418121211230755,
+    "deepseek_act_rms": 0.050579849630594254,
+    "elapsed_sec": 0.14328479766845703
+  },
+  {
+    "qwen_layer": 34,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00010-of-00018.safetensors",
+    "deepseek_layer": 23,
+    "deepseek_shard": "model-00011-of-00019.safetensors",
+    "qwen_act_rms": 0.007418392226099968,
+    "deepseek_act_rms": 0.05063733831048012,
+    "elapsed_sec": 0.16930508613586426
+  },
+  {
+    "qwen_layer": 35,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00010-of-00018.safetensors",
+    "deepseek_layer": 23,
+    "deepseek_shard": "model-00011-of-00019.safetensors",
+    "qwen_act_rms": 0.007468851283192635,
+    "deepseek_act_rms": 0.05063733831048012,
+    "elapsed_sec": 0.110504150390625
+  },
+  {
+    "qwen_layer": 36,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00010-of-00018.safetensors",
+    "deepseek_layer": 24,
+    "deepseek_shard": "model-00011-of-00019.safetensors",
+    "qwen_act_rms": 0.007470432203263044,
+    "deepseek_act_rms": 0.05067535862326622,
+    "elapsed_sec": 0.14383721351623535
+  },
+  {
+    "qwen_layer": 37,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00011-of-00018.safetensors",
+    "deepseek_layer": 25,
+    "deepseek_shard": "model-00012-of-00019.safetensors",
+    "qwen_act_rms": 0.007471656892448664,
+    "deepseek_act_rms": 0.050719115883111954,
+    "elapsed_sec": 0.1418900489807129
+  },
+  {
+    "qwen_layer": 38,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00011-of-00018.safetensors",
+    "deepseek_layer": 25,
+    "deepseek_shard": "model-00012-of-00019.safetensors",
+    "qwen_act_rms": 0.00747273163869977,
+    "deepseek_act_rms": 0.050719115883111954,
+    "elapsed_sec": 0.11356902122497559
+  },
+  {
+    "qwen_layer": 39,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00011-of-00018.safetensors",
+    "deepseek_layer": 26,
+    "deepseek_shard": "model-00012-of-00019.safetensors",
+    "qwen_act_rms": 0.0075383735820651054,
+    "deepseek_act_rms": 0.05081116408109665,
+    "elapsed_sec": 0.1545569896697998
+  },
+  {
+    "qwen_layer": 40,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00012-of-00018.safetensors",
+    "deepseek_layer": 27,
+    "deepseek_shard": "model-00013-of-00019.safetensors",
+    "qwen_act_rms": 0.007540195714682341,
+    "deepseek_act_rms": 0.0510016568005085,
+    "elapsed_sec": 0.15621685981750488
+  },
+  {
+    "qwen_layer": 41,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00012-of-00018.safetensors",
+    "deepseek_layer": 27,
+    "deepseek_shard": "model-00013-of-00019.safetensors",
+    "qwen_act_rms": 0.007542287930846214,
+    "deepseek_act_rms": 0.0510016568005085,
+    "elapsed_sec": 0.12080693244934082
+  },
+  {
+    "qwen_layer": 42,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00012-of-00018.safetensors",
+    "deepseek_layer": 28,
+    "deepseek_shard": "model-00013-of-00019.safetensors",
+    "qwen_act_rms": 0.007543815765529871,
+    "deepseek_act_rms": 0.051512882113456726,
+    "elapsed_sec": 0.15440011024475098
+  },
+  {
+    "qwen_layer": 43,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00012-of-00018.safetensors",
+    "deepseek_layer": 29,
+    "deepseek_shard": "model-00013-of-00019.safetensors",
+    "qwen_act_rms": 0.007619427517056465,
+    "deepseek_act_rms": 0.051678288727998734,
+    "elapsed_sec": 0.15322065353393555
+  },
+  {
+    "qwen_layer": 44,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00012-of-00018.safetensors",
+    "deepseek_layer": 29,
+    "deepseek_shard": "model-00013-of-00019.safetensors",
+    "qwen_act_rms": 0.0076223379001021385,
+    "deepseek_act_rms": 0.051678288727998734,
+    "elapsed_sec": 0.12382674217224121
+  },
+  {
+    "qwen_layer": 45,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00013-of-00018.safetensors",
+    "deepseek_layer": 30,
+    "deepseek_shard": "model-00014-of-00019.safetensors",
+    "qwen_act_rms": 0.007625257596373558,
+    "deepseek_act_rms": 0.05181277170777321,
+    "elapsed_sec": 0.15603995323181152
+  },
+  {
+    "qwen_layer": 46,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00013-of-00018.safetensors",
+    "deepseek_layer": 31,
+    "deepseek_shard": "model-00014-of-00019.safetensors",
+    "qwen_act_rms": 0.007626883219927549,
+    "deepseek_act_rms": 0.053512293845415115,
+    "elapsed_sec": 0.1602928638458252
+  },
+  {
+    "qwen_layer": 47,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00013-of-00018.safetensors",
+    "deepseek_layer": 31,
+    "deepseek_shard": "model-00014-of-00019.safetensors",
+    "qwen_act_rms": 0.007717842701822519,
+    "deepseek_act_rms": 0.053512293845415115,
+    "elapsed_sec": 0.12283682823181152
+  },
+  {
+    "qwen_layer": 48,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00014-of-00018.safetensors",
+    "deepseek_layer": 32,
+    "deepseek_shard": "model-00015-of-00019.safetensors",
+    "qwen_act_rms": 0.007718964945524931,
+    "deepseek_act_rms": 0.05379890650510788,
+    "elapsed_sec": 0.1568291187286377
+  },
+  {
+    "qwen_layer": 49,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00014-of-00018.safetensors",
+    "deepseek_layer": 33,
+    "deepseek_shard": "model-00015-of-00019.safetensors",
+    "qwen_act_rms": 0.007719623390585184,
+    "deepseek_act_rms": 0.05400840938091278,
+    "elapsed_sec": 0.17997527122497559
+  },
+  {
+    "qwen_layer": 50,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00014-of-00018.safetensors",
+    "deepseek_layer": 33,
+    "deepseek_shard": "model-00015-of-00019.safetensors",
+    "qwen_act_rms": 0.007719941437244415,
+    "deepseek_act_rms": 0.05400840938091278,
+    "elapsed_sec": 0.15749502182006836
+  },
+  {
+    "qwen_layer": 51,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00014-of-00018.safetensors",
+    "deepseek_layer": 34,
+    "deepseek_shard": "model-00016-of-00019.safetensors",
+    "qwen_act_rms": 0.007860223762691021,
+    "deepseek_act_rms": 0.05471161752939224,
+    "elapsed_sec": 0.14966988563537598
+  },
+  {
+    "qwen_layer": 52,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00014-of-00018.safetensors",
+    "deepseek_layer": 35,
+    "deepseek_shard": "model-00016-of-00019.safetensors",
+    "qwen_act_rms": 0.007862353697419167,
+    "deepseek_act_rms": 0.05489085614681244,
+    "elapsed_sec": 0.15131497383117676
+  },
+  {
+    "qwen_layer": 53,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00015-of-00018.safetensors",
+    "deepseek_layer": 35,
+    "deepseek_shard": "model-00016-of-00019.safetensors",
+    "qwen_act_rms": 0.007865183055400848,
+    "deepseek_act_rms": 0.05489085614681244,
+    "elapsed_sec": 0.12671804428100586
+  },
+  {
+    "qwen_layer": 54,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00015-of-00018.safetensors",
+    "deepseek_layer": 36,
+    "deepseek_shard": "model-00016-of-00019.safetensors",
+    "qwen_act_rms": 0.00787095632404089,
+    "deepseek_act_rms": 0.05493004247546196,
+    "elapsed_sec": 0.1581418514251709
+  },
+  {
+    "qwen_layer": 55,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00015-of-00018.safetensors",
+    "deepseek_layer": 37,
+    "deepseek_shard": "model-00017-of-00019.safetensors",
+    "qwen_act_rms": 0.008250469341874123,
+    "deepseek_act_rms": 0.05522989481687546,
+    "elapsed_sec": 0.2012500762939453
+  },
+  {
+    "qwen_layer": 56,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00016-of-00018.safetensors",
+    "deepseek_layer": 37,
+    "deepseek_shard": "model-00017-of-00019.safetensors",
+    "qwen_act_rms": 0.00825931504368782,
+    "deepseek_act_rms": 0.05522989481687546,
+    "elapsed_sec": 0.12395811080932617
+  },
+  {
+    "qwen_layer": 57,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00016-of-00018.safetensors",
+    "deepseek_layer": 38,
+    "deepseek_shard": "model-00017-of-00019.safetensors",
+    "qwen_act_rms": 0.008283140137791634,
+    "deepseek_act_rms": 0.0554938018321991,
+    "elapsed_sec": 0.14713716506958008
+  },
+  {
+    "qwen_layer": 58,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00016-of-00018.safetensors",
+    "deepseek_layer": 39,
+    "deepseek_shard": "model-00018-of-00019.safetensors",
+    "qwen_act_rms": 0.008334998972713947,
+    "deepseek_act_rms": 0.05741763859987259,
+    "elapsed_sec": 0.1448202133178711
+  },
+  {
+    "qwen_layer": 59,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00016-of-00018.safetensors",
+    "deepseek_layer": 39,
+    "deepseek_shard": "model-00018-of-00019.safetensors",
+    "qwen_act_rms": 0.010777061805129051,
+    "deepseek_act_rms": 0.05741763859987259,
+    "elapsed_sec": 0.11143708229064941
+  },
+  {
+    "qwen_layer": 60,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00016-of-00018.safetensors",
+    "deepseek_layer": 40,
+    "deepseek_shard": "model-00018-of-00019.safetensors",
+    "qwen_act_rms": 0.01082288846373558,
+    "deepseek_act_rms": 0.05918626859784126,
+    "elapsed_sec": 0.14784479141235352
+  },
+  {
+    "qwen_layer": 61,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00017-of-00018.safetensors",
+    "deepseek_layer": 41,
+    "deepseek_shard": "model-00019-of-00019.safetensors",
+    "qwen_act_rms": 0.010875152423977852,
+    "deepseek_act_rms": 0.06543956696987152,
+    "elapsed_sec": 0.146697998046875
+  },
+  {
+    "qwen_layer": 62,
+    "layer_type": "linear_attention",
+    "qwen_shard": "model-00017-of-00018.safetensors",
+    "deepseek_layer": 41,
+    "deepseek_shard": "model-00019-of-00019.safetensors",
+    "qwen_act_rms": 0.010900495573878288,
+    "deepseek_act_rms": 0.06543956696987152,
+    "elapsed_sec": 0.11876583099365234
+  },
+  {
+    "qwen_layer": 63,
+    "layer_type": "full_attention",
+    "qwen_shard": "model-00017-of-00018.safetensors",
+    "deepseek_layer": 42,
+    "deepseek_shard": "model-00019-of-00019.safetensors",
+    "qwen_act_rms": 0.014017939567565918,
+    "deepseek_act_rms": 0.13067322969436646,
+    "elapsed_sec": 0.1434340476989746
+  }
+]

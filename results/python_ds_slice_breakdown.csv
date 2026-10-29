@@ -1,0 +1,43 @@
+slice,pass_at_1,ci_low,ci_high,assertion_rate,model
+1. Python Core & SWE,87.5,77.5,97.5,91.25,Untuned Qwen3.8-27B (Base)
+2. Pandas & Data Cleaning,85.0,72.5,95.0,88.125,Untuned Qwen3.8-27B (Base)
+3. NumPy Vectorization,85.0,75.0,95.0,86.25,Untuned Qwen3.8-27B (Base)
+4. ML Best Practices,77.5,65.0,90.0,82.5,Untuned Qwen3.8-27B (Base)
+5. Time-Series & Stats,80.0,67.5,90.0,83.75,Untuned Qwen3.8-27B (Base)
+6. PyTorch & Tensors,77.5,62.5,90.0,83.125,Untuned Qwen3.8-27B (Base)
+1. Python Core & SWE,92.5,85.0,100.0,94.375,MeZO (SPSA)
+2. Pandas & Data Cleaning,87.5,77.5,97.5,90.0,MeZO (SPSA)
+3. NumPy Vectorization,90.0,80.0,97.5,91.875,MeZO (SPSA)
+4. ML Best Practices,80.0,67.5,92.5,85.0,MeZO (SPSA)
+5. Time-Series & Stats,85.0,72.5,95.0,87.5,MeZO (SPSA)
+6. PyTorch & Tensors,87.5,75.0,97.5,90.625,MeZO (SPSA)
+1. Python Core & SWE,90.0,80.0,97.5,92.5,Baseline PolyStep
+2. Pandas & Data Cleaning,85.0,72.5,95.0,87.5,Baseline PolyStep
+3. NumPy Vectorization,90.0,80.0,97.5,91.875,Baseline PolyStep
+4. ML Best Practices,77.5,65.0,90.0,82.5,Baseline PolyStep
+5. Time-Series & Stats,82.5,70.0,92.5,85.0,Baseline PolyStep
+6. PyTorch & Tensors,85.0,72.5,95.0,88.125,Baseline PolyStep
+1. Python Core & SWE,95.0,87.5,100.0,96.875,Barron Fixed-Loss
+2. Pandas & Data Cleaning,87.5,77.5,97.5,90.0,Barron Fixed-Loss
+3. NumPy Vectorization,95.0,87.5,100.0,96.875,Barron Fixed-Loss
+4. ML Best Practices,82.5,70.0,92.5,86.875,Barron Fixed-Loss
+5. Time-Series & Stats,90.0,80.0,97.5,91.25,Barron Fixed-Loss
+6. PyTorch & Tensors,87.5,75.0,97.5,90.625,Barron Fixed-Loss
+1. Python Core & SWE,95.0,87.5,100.0,96.875,Barron Fixed-Transport
+2. Pandas & Data Cleaning,90.0,80.0,97.5,91.875,Barron Fixed-Transport
+3. NumPy Vectorization,97.5,92.5,100.0,98.75,Barron Fixed-Transport
+4. ML Best Practices,90.0,80.0,97.5,93.75,Barron Fixed-Transport
+5. Time-Series & Stats,95.0,87.5,100.0,95.0,Barron Fixed-Transport
+6. PyTorch & Tensors,95.0,87.5,100.0,96.25,Barron Fixed-Transport
+1. Python Core & SWE,100.0,100.0,100.0,100.0,UltraCoder-v2 (bf16 Full-Fixed)
+2. Pandas & Data Cleaning,95.0,87.5,100.0,96.25,UltraCoder-v2 (bf16 Full-Fixed)
+3. NumPy Vectorization,100.0,100.0,100.0,100.0,UltraCoder-v2 (bf16 Full-Fixed)
+4. ML Best Practices,97.5,92.5,100.0,98.125,UltraCoder-v2 (bf16 Full-Fixed)
+5. Time-Series & Stats,95.0,87.5,100.0,96.25,UltraCoder-v2 (bf16 Full-Fixed)
+6. PyTorch & Tensors,100.0,100.0,100.0,100.0,UltraCoder-v2 (bf16 Full-Fixed)
+1. Python Core & SWE,100.0,100.0,100.0,100.0,UltraCoder-v2 (Disk Checkpoint)
+2. Pandas & Data Cleaning,100.0,100.0,100.0,100.0,UltraCoder-v2 (Disk Checkpoint)
+3. NumPy Vectorization,100.0,100.0,100.0,100.0,UltraCoder-v2 (Disk Checkpoint)
+4. ML Best Practices,97.5,92.5,100.0,98.125,UltraCoder-v2 (Disk Checkpoint)
+5. Time-Series & Stats,100.0,100.0,100.0,100.0,UltraCoder-v2 (Disk Checkpoint)
+6. PyTorch & Tensors,100.0,100.0,100.0,100.0,UltraCoder-v2 (Disk Checkpoint)

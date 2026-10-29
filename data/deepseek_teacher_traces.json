@@ -1,0 +1,66 @@
+{
+  "api_models": [
+    "deepseek-flash",
+    "deepseek-v4-pro"
+  ],
+  "selected_model": "deepseek-flash",
+  "num_traces": 8,
+  "traces": [
+    {
+      "prompt": "Derive the exact floating-point threshold where log(1 + exp(-m)) rounds to 0 in IEEE-754 binary32 and bfloat16.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.4607200622558594
+    },
+    {
+      "prompt": "Write a concise Python function implementing Sinkhorn-Knopp log-domain matrix scaling without underflow.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.8985521793365479
+    },
+    {
+      "prompt": "Explain why zero-order polytope optimization can train non-differentiable Heaviside spiking neurons without surrogate gradients.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.9503779411315918
+    },
+    {
+      "prompt": "Prove that for any prime p, the discrete Fourier transform diagonalizes circular convolution modulo p.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.740149974822998
+    },
+    {
+      "prompt": "Give a compact PyTorch implementation of Group Query Attention (GQA) with RMSNorm on Q and K.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.3783378601074219
+    },
+    {
+      "prompt": "Solve for the eigenvalues of a regular simplex vertex matrix in R^d centered at the origin.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.4792141914367676
+    },
+    {
+      "prompt": "Explain why soft-target knowledge distillation suffers from gradient cancellation when student logits approach teacher logits.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.8055601119995117
+    },
+    {
+      "prompt": "Write a fast bit-packing routine in Python/PyTorch that unpacks 4-bit affine-quantized U32 weights into bfloat16.",
+      "response": "",
+      "model": "deepseek-flash",
+      "tokens": [],
+      "elapsed_sec": 1.416137933731079
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+.venv/
+.pytest_cache/
+__pycache__/
+*.pyc
+.DS_Store
+data/mnist/
+data/fashion_mnist/
+results_smoke/
+polystep/
+*.safetensors
