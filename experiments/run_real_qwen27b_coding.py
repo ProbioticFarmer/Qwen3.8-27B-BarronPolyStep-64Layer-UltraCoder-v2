@@ -199,10 +199,10 @@ def main():
     target_local_col = torch.zeros_like(cand_tok_target)
     for p in range(len(h63_base)):
         row_list = local_ids[p].tolist()
-        for c_t in pos_to_cands[p]:
-            if c_t not in row_list:
-                row_list = [c_t] + row_list[:-1]
-        local_ids[p] = torch.tensor(row_list[:20], dtype=torch.long)
+        keep = row_list[:16]
+        extra = [c_t for c_t in pos_to_cands[p] if c_t not in keep]
+        merged = (keep + extra + row_list[16:])[:20]
+        local_ids[p] = torch.tensor(merged, dtype=torch.long)
     for i, (p, t) in enumerate(zip(cand_tok_pos.tolist(), cand_tok_target.tolist())):
         target_local_col[i] = (local_ids[p] == t).nonzero(as_tuple=False)[0, 0]
 
@@ -225,6 +225,7 @@ def main():
     D_param = D_out * D_in  # 256 parameters
 
     # High-confidence coding tokens sitting inside the bfloat16 precision cliff (Delta z > 5.2)
+    non_slot_mask = torch.tensor([len(pos_to_cands[p]) <= 1 for p in range(len(h63_base))], dtype=torch.bool)
     tok_margins0 = z_local0[:, 0] - z_local0[:, 1]
     cliff_tok_idx = (tok_margins0 > 5.2).nonzero(as_tuple=False).squeeze(-1)
     cliff_tok_targets = torch.zeros(len(cliff_tok_idx), dtype=torch.long)
@@ -244,7 +245,9 @@ def main():
         lse_total = torch.logsumexp(logits_21, dim=-1)
         tok_lps = logits_20[cand_tok_pos, target_local_col] - lse_total[cand_tok_pos]
         sc = (seg_mat @ tok_lps).view(224, 4)
-        return sc, logits_20[cliff_tok_idx, :4]
+        ns_logits = logits_20[non_slot_mask, :16]
+        margin_violation = torch.relu(ns_logits[:, 1:].amax(dim=-1) - ns_logits[:, 0] + 0.15).mean()
+        return sc, logits_20[cliff_tok_idx, :16], margin_violation
 
     def eval_scores_full_exact(theta_vec: torch.Tensor, scale: float = 2.0) -> torch.Tensor:
         """Exact 5120-D RMSNorm + full 248,320-token vocabulary partition function."""
@@ -295,7 +298,7 @@ def main():
             P_basis, _ = torch.linalg.qr(g_mat, mode="reduced")
 
             def calc_loss(p_th):
-                sc, _ = eval_scores_and_cliff_toks(p_th)
+                sc, _, _ = eval_scores_and_cliff_toks(p_th)
                 z_slot = (sc[train_idx] * 24.0).to(torch.bfloat16)
                 return barron_ce(z_slot, targets_half) + 0.05 * p_th.pow(2).sum()
 
@@ -398,25 +401,25 @@ def main():
             verts = torch.cat([torch.eye(K_sub), -torch.eye(K_sub)], dim=0)
             sigma = 0.035
 
-            for step in range(60):
+            for step in range(85):
                 # Pure random orthogonal subspace — ZERO planted u0
                 g_mat = torch.randn((D_param, K_sub), generator=gen)
                 P_basis, _ = torch.linalg.qr(g_mat, mode="reduced")
 
                 def calc_loss(p_th):
-                    sc, z_cliff = eval_scores_and_cliff_toks(p_th)
+                    sc, z_cliff, mv = eval_scores_and_cliff_toks(p_th)
                     z_slot = (sc * 24.0).to(w_dtype)
                     z_c = z_cliff.to(w_dtype)
                     if use_b_loss:
                         l_s = barron_ce(z_slot, targets_zero).float()
                         l_c = barron_ce(z_c, cliff_tok_targets).float()
-                        return (l_s + 2.0 * l_c).to(w_dtype)
+                        return (l_s + 2.0 * l_c + 2.0 * mv).to(w_dtype)
                     else:
                         p_slot = F.softmax(z_slot, dim=-1)
                         l_s = (-torch.log(p_slot[:, 0].clamp(min=1e-38))).mean().float()
                         p_c = F.softmax(z_c, dim=-1)
                         l_c = (-torch.log(p_c[:, 0].clamp(min=1e-38))).mean().float()
-                        return (l_s + 2.0 * l_c).to(w_dtype)
+                        return (l_s + 2.0 * l_c + 2.0 * mv).to(w_dtype)
 
                 if is_mezo:
                     u_dir = P_basis[:, 0]

@@ -1,0 +1,890 @@
+{
+  "base": {
+    "label": "Unmodified Base Qwen/Qwen3.8-27B",
+    "pass_at_1": 95.0,
+    "fn_pass": 38,
+    "fn_total": 40,
+    "assert_acc": 97.5,
+    "assert_pass": 156,
+    "assert_total": 160,
+    "elapsed_sec": 63.25,
+    "domains": {
+      "HumanEval": {
+        "fn_pass": 7,
+        "fn_total": 8,
+        "assert_pass": 30,
+        "assert_total": 32
+      },
+      "MBPP": {
+        "fn_pass": 8,
+        "fn_total": 8,
+        "assert_pass": 32,
+        "assert_total": 32
+      },
+      "DS1000-NumPy": {
+        "fn_pass": 8,
+        "fn_total": 8,
+        "assert_pass": 32,
+        "assert_total": 32
+      },
+      "DS1000-Pandas-ML": {
+        "fn_pass": 8,
+        "fn_total": 8,
+        "assert_pass": 32,
+        "assert_total": 32
+      },
+      "Algo-OpenEnded": {
+        "fn_pass": 7,
+        "fn_total": 8,
+        "assert_pass": 30,
+        "assert_total": 32
+      }
+    },
+    "per_problem": [
+      {
+        "id": "HumanEval/0",
+        "domain": "HumanEval",
+        "entry_point": "has_close_elements",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n\n\n"
+      },
+      {
+        "id": "HumanEval/3",
+        "domain": "HumanEval",
+        "entry_point": "below_zero",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    return False\n\n\n"
+      },
+      {
+        "id": "HumanEval/4",
+        "domain": "HumanEval",
+        "entry_point": "mean_absolute_deviation",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    mean = sum(numbers) / len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n\n\n"
+      },
+      {
+        "id": "HumanEval/20",
+        "domain": "HumanEval",
+        "entry_point": "find_closest_elements",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    numbers.sort()\n    min_diff = float('inf')\n    closest_pair = (numbers[0], numbers[1])\n    for i in range(len(numbers) - 1):\n        diff = numbers[i + 1] - numbers[i]\n        if diff < min_diff:\n            min_diff = diff\n            closest_pair = (numbers[i], numbers[i + 1])\n    return closest_pair\n\n\n"
+      },
+      {
+        "id": "HumanEval/26",
+        "domain": "HumanEval",
+        "entry_point": "remove_duplicates",
+        "passed": false,
+        "assertions_passed": 2,
+        "assertions_total": 4,
+        "error": "AssertionError()",
+        "generated_body": "    seen = set()\n    result = []\n    for num in numbers:\n        if num not in seen:\n            seen.add(num)\n            result.append(num)\n    return result\n\n"
+      },
+      {
+        "id": "HumanEval/31",
+        "domain": "HumanEval",
+        "entry_point": "is_prime",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True\n\n\n"
+      },
+      {
+        "id": "HumanEval/43",
+        "domain": "HumanEval",
+        "entry_point": "pairs_sum_to_zero",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    for i in range(len(l)):\n        for j in range(i + 1, len(l)):\n            if l[i] + l[j] == 0:\n                return True\n    return False# pairs_sum_to_zero takes a list of integers as an input.\n"
+      },
+      {
+        "id": "HumanEval/60",
+        "domain": "HumanEval",
+        "entry_point": "sum_to_n",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return n * (n + 1) // 2\n\n\n"
+      },
+      {
+        "id": "MBPP/18",
+        "domain": "MBPP",
+        "entry_point": "remove_dirty_chars",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return ''.join([char for char in string if char not in second_string])\n\n"
+      },
+      {
+        "id": "MBPP/106",
+        "domain": "MBPP",
+        "entry_point": "add_lists",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return test_tup + tuple(test_list)\n\n\n"
+      },
+      {
+        "id": "MBPP/135",
+        "domain": "MBPP",
+        "entry_point": "hexagonal_num",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return n * (2 * n - 1)\n\n\n"
+      },
+      {
+        "id": "MBPP/222",
+        "domain": "MBPP",
+        "entry_point": "check_type",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return all(type(test_tuple[0]) == type(x) for x in test_tuple)\n\n\n"
+      },
+      {
+        "id": "MBPP/269",
+        "domain": "MBPP",
+        "entry_point": "ascii_value",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return ord(k)\n\n\n"
+      },
+      {
+        "id": "MBPP/414",
+        "domain": "MBPP",
+        "entry_point": "overlapping",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    for i in list1:\n        if i in list2:\n            return True\n    return False\n\n\n"
+      },
+      {
+        "id": "MBPP/456",
+        "domain": "MBPP",
+        "entry_point": "reverse_string_list",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return [s[::-1] for s in stringlist]\n\n\n"
+      },
+      {
+        "id": "MBPP/554",
+        "domain": "MBPP",
+        "entry_point": "Split",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return [num for num in list_nums if num % 2 != 0]\n\n"
+      },
+      {
+        "id": "DS1000-NP/1",
+        "domain": "DS1000-NumPy",
+        "entry_point": "min_max_scale_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    x_min = x.min()\n    x_max = x.max()\n    if x_max == x_min:\n        return np.zeros_like(x)\n    return (x - x_min) / (x_max - x_min)\n\n"
+      },
+      {
+        "id": "DS1000-NP/2",
+        "domain": "DS1000-NumPy",
+        "entry_point": "softmax_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    x = np.asarray(x, dtype=float)\n    if x.ndim != 1:\n        raise ValueError(\"Input must be a 1D array\")\n    x_shifted = x - np.max(x)\n    exp_x = np.exp(x_shifted)\n    return exp_x / np.sum(exp_x)\n\n"
+      },
+      {
+        "id": "DS1000-NP/3",
+        "domain": "DS1000-NumPy",
+        "entry_point": "cosine_similarity_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    dot_product = np.dot(a, b)\n    norm_a = np.linalg.norm(a)\n    norm_b = np.linalg.norm(b)\n    return dot_product / (norm_a * norm_b)\n\n"
+      },
+      {
+        "id": "DS1000-NP/4",
+        "domain": "DS1000-NumPy",
+        "entry_point": "replace_nan_with_mean",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    x = np.array(x, copy=True)\n    x[np.isnan(x)] = np.nanmean(x)\n    return x\n\n"
+      },
+      {
+        "id": "DS1000-NP/5",
+        "domain": "DS1000-NumPy",
+        "entry_point": "euclidean_distance_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return np.linalg.norm(a - b)\n\n"
+      },
+      {
+        "id": "DS1000-NP/6",
+        "domain": "DS1000-NumPy",
+        "entry_point": "one_hot_encode",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    one_hot = np.zeros((len(labels), num_classes))\n    one_hot[np.arange(len(labels)), labels] = 1\n    return one_hot\n\n"
+      },
+      {
+        "id": "DS1000-NP/7",
+        "domain": "DS1000-NumPy",
+        "entry_point": "moving_average_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    # Create a window of ones and normalize by window size\n    kernel = np.ones(w) / w\n    # Use 'valid' mode to only compute where the kernel fully overlaps the input\n    return np.convolve(x, kernel, mode='valid')\n\n"
+      },
+      {
+        "id": "DS1000-NP/8",
+        "domain": "DS1000-NumPy",
+        "entry_point": "l2_normalize_rows",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    norms = np.linalg.norm(X, axis=1, keepdims=True)\n    norms[norms == 0] = 1  # Avoid division by zero\n    return X / norms\n\n"
+      },
+      {
+        "id": "DS1000-PD/1",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "filter_and_sort_df",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return df[df[col] >= min_val].sort_values(by=col, ascending=False)\n\n"
+      },
+      {
+        "id": "DS1000-PD/2",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "fillna_with_column_median",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return df[col].fillna(df[col].median())\n\n"
+      },
+      {
+        "id": "DS1000-PD/3",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "groupby_mean_dict",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return df.groupby(group_col)[val_col].mean().to_dict()\n\n"
+      },
+      {
+        "id": "DS1000-PD/4",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "rolling_mean_series",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return df[col].rolling(window=window, min_periods=1).mean()\n\n"
+      },
+      {
+        "id": "DS1000-ML/5",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "mean_squared_error_np",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return float(np.mean((y_true - y_pred) ** 2))\n\n"
+      },
+      {
+        "id": "DS1000-ML/6",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "r2_score_np",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    ss_res = np.sum((y_true - y_pred) ** 2)\n    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)\n    return 1 - ss_res / ss_tot\n\n"
+      },
+      {
+        "id": "DS1000-ML/7",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "binary_accuracy",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    y_pred = (y_prob >= threshold).astype(int)\n    return np.mean(y_pred == y_true)\n\n"
+      },
+      {
+        "id": "DS1000-ML/8",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "sigmoid_np",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return 1 / (1 + np.exp(-x))\n\n"
+      },
+      {
+        "id": "AlgoGen/7",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "solve",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "0 <= out[0] <= 255\n    assert 0 <= out[1] <= 255\n    assert 0 <= out[2] <= 255\n    assert 0 <= out[3] <= 255\n    return out\n\n"
+      },
+      {
+        "id": "AlgoGen/13",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "solve",
+        "passed": false,
+        "assertions_passed": 2,
+        "assertions_total": 4,
+        "error": "AssertionError()",
+        "generated_body": "1\n    return comps\n\n"
+      },
+      {
+        "id": "AlgoGen/29",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "solve",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "0 <= x < m1 * m2\n            return x\n    return -1\n\n"
+      },
+      {
+        "id": "AlgoGen/18",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "kmp_lps",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": " lps[length - 1]\n        else:\n            lps[i] = 0\n            i += 1\n    return lps\n\n\n"
+      },
+      {
+        "id": "AlgoGen/2",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "fenwick_prefix_sum",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "        s += tree[k]\n        k -= k & -k\n    return s\n\n\n"
+      },
+      {
+        "id": "AlgoGen/5",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "max_subarray_kadane",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    max_sum = nums[0]\n    current_sum = nums[0]\n    for i in range(1, len(nums)):\n        current_sum = max(nums[i], current_sum + nums[i])\n        max_sum = max(max_sum, current_sum)\n    return max_sum\n\n\n"
+      },
+      {
+        "id": "AlgoGen/27",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "kruskal_mst_weight",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "        ru, rv = find(u), find(v)\n        if ru != rv:\n            parent[ru] = rv\n            total += w\n    return total\n\n"
+      },
+      {
+        "id": "AlgoGen/30",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "dijkstra_shortest_path",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "            nd = d + w\n            if nd < dist[v]:\n                dist[v] = nd\n                heapq.heappush(pq, (nd, v))\n    return -1 if dist[dst] == float('inf') else dist[dst]\n\n"
+      }
+    ]
+  },
+  "realcoder_v3": {
+    "label": "Qwen3.8-27B-BarronPolyStep-RealCoder-v3",
+    "pass_at_1": 97.5,
+    "fn_pass": 39,
+    "fn_total": 40,
+    "assert_acc": 98.75,
+    "assert_pass": 158,
+    "assert_total": 160,
+    "elapsed_sec": 66.51,
+    "domains": {
+      "HumanEval": {
+        "fn_pass": 7,
+        "fn_total": 8,
+        "assert_pass": 30,
+        "assert_total": 32
+      },
+      "MBPP": {
+        "fn_pass": 8,
+        "fn_total": 8,
+        "assert_pass": 32,
+        "assert_total": 32
+      },
+      "DS1000-NumPy": {
+        "fn_pass": 8,
+        "fn_total": 8,
+        "assert_pass": 32,
+        "assert_total": 32
+      },
+      "DS1000-Pandas-ML": {
+        "fn_pass": 8,
+        "fn_total": 8,
+        "assert_pass": 32,
+        "assert_total": 32
+      },
+      "Algo-OpenEnded": {
+        "fn_pass": 8,
+        "fn_total": 8,
+        "assert_pass": 32,
+        "assert_total": 32
+      }
+    },
+    "per_problem": [
+      {
+        "id": "HumanEval/0",
+        "domain": "HumanEval",
+        "entry_point": "has_close_elements",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    for idx, num in enumerate(numbers):\n        for num2 in numbers:\n            if idx != numbers.index(num2) and abs(num - num2) < threshold:\n                return True\n    return False\n\n\n"
+      },
+      {
+        "id": "HumanEval/3",
+        "domain": "HumanEval",
+        "entry_point": "below_zero",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    return False\n\n\n"
+      },
+      {
+        "id": "HumanEval/4",
+        "domain": "HumanEval",
+        "entry_point": "mean_absolute_deviation",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    mean = sum(numbers) / len(numbers)\n    abs_deviations = [abs(x - mean) for x in numbers]\n    return sum(abs_deviations) / len(numbers)\n\n\n"
+      },
+      {
+        "id": "HumanEval/20",
+        "domain": "HumanEval",
+        "entry_point": "find_closest_elements",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    numbers.sort()\n    min_diff = float('inf')\n    closest_pair = (numbers[0], numbers[1])\n    for i in range(len(numbers) - 1):\n        diff = abs(numbers[i] - numbers[i + 1])\n        if diff < min_diff:\n            min_diff = diff\n            closest_pair = (numbers[i], numbers[i + 1])\n    return closest_pair# This is a sample Python script.\n\n"
+      },
+      {
+        "id": "HumanEval/26",
+        "domain": "HumanEval",
+        "entry_point": "remove_duplicates",
+        "passed": false,
+        "assertions_passed": 2,
+        "assertions_total": 4,
+        "error": "AssertionError()",
+        "generated_body": "    seen = set()\n    result = []\n    for num in numbers:\n        if num not in seen:\n            seen.add(num)\n            result.append(num)\n    return result\n\n"
+      },
+      {
+        "id": "HumanEval/31",
+        "domain": "HumanEval",
+        "entry_point": "is_prime",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True\n\n\n"
+      },
+      {
+        "id": "HumanEval/43",
+        "domain": "HumanEval",
+        "entry_point": "pairs_sum_to_zero",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    for i in range(len(l)):\n        for j in range(i + 1, len(l)):\n            if l[i] + l[j] == 0:\n                return True\n    return False# -*- coding: utf-8 -*-\n"
+      },
+      {
+        "id": "HumanEval/60",
+        "domain": "HumanEval",
+        "entry_point": "sum_to_n",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return n * (n + 1) // 2\n\n\n"
+      },
+      {
+        "id": "MBPP/18",
+        "domain": "MBPP",
+        "entry_point": "remove_dirty_chars",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    for char in second_string:\n        string = string.replace(char, '')\n    return string\n\n"
+      },
+      {
+        "id": "MBPP/106",
+        "domain": "MBPP",
+        "entry_point": "add_lists",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return test_tup + tuple(test_list)\n\n\n"
+      },
+      {
+        "id": "MBPP/135",
+        "domain": "MBPP",
+        "entry_point": "hexagonal_num",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return n * (2 * n - 1)\n\n\n"
+      },
+      {
+        "id": "MBPP/222",
+        "domain": "MBPP",
+        "entry_point": "check_type",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return all(type(test_tuple[0]) == type(x) for x in test_tuple)\n\n\n"
+      },
+      {
+        "id": "MBPP/269",
+        "domain": "MBPP",
+        "entry_point": "ascii_value",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return ord(k)\n\n\n"
+      },
+      {
+        "id": "MBPP/414",
+        "domain": "MBPP",
+        "entry_point": "overlapping",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    for item in list1:\n        if item in list2:\n            return True\n    return False\n\n"
+      },
+      {
+        "id": "MBPP/456",
+        "domain": "MBPP",
+        "entry_point": "reverse_string_list",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return [s[::-1] for s in stringlist]\n\n\n"
+      },
+      {
+        "id": "MBPP/554",
+        "domain": "MBPP",
+        "entry_point": "Split",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return [x for x in list_nums if x % 2 != 0]\n\n"
+      },
+      {
+        "id": "DS1000-NP/1",
+        "domain": "DS1000-NumPy",
+        "entry_point": "min_max_scale_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    min_val = np.min(x)\n    max_val = np.max(x)\n    return (x - min_val) / (max_val - min_val)\n\n"
+      },
+      {
+        "id": "DS1000-NP/2",
+        "domain": "DS1000-NumPy",
+        "entry_point": "softmax_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    exp_x = np.exp(x - np.max(x))\n    return exp_x / np.sum(exp_x)\n\n"
+      },
+      {
+        "id": "DS1000-NP/3",
+        "domain": "DS1000-NumPy",
+        "entry_point": "cosine_similarity_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    dot_product = np.dot(a, b)\n    norm_a = np.linalg.norm(a)\n    norm_b = np.linalg.norm(b)\n    if norm_a == 0 or norm_b == 0:\n        return 0.0\n    return float(dot_product / (norm_a * norm_b))\n\n"
+      },
+      {
+        "id": "DS1000-NP/4",
+        "domain": "DS1000-NumPy",
+        "entry_point": "replace_nan_with_mean",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    x = np.array(x, copy=True)\n    nan_mask = np.isnan(x)\n    if np.any(nan_mask):\n        x[nan_mask] = np.nanmean(x)\n    return x\n\n"
+      },
+      {
+        "id": "DS1000-NP/5",
+        "domain": "DS1000-NumPy",
+        "entry_point": "euclidean_distance_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return float(np.linalg.norm(a - b))\n\n"
+      },
+      {
+        "id": "DS1000-NP/6",
+        "domain": "DS1000-NumPy",
+        "entry_point": "one_hot_encode",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    one_hot = np.zeros((len(labels), num_classes))\n    one_hot[np.arange(len(labels)), labels] = 1\n    return one_hot\n\n"
+      },
+      {
+        "id": "DS1000-NP/7",
+        "domain": "DS1000-NumPy",
+        "entry_point": "moving_average_1d",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    # Create a window of ones with length w\n    window = np.ones(w) / w\n    # Use 'valid' mode to only compute where the window fully overlaps\n    return np.convolve(x, window, mode='valid')\n\n"
+      },
+      {
+        "id": "DS1000-NP/8",
+        "domain": "DS1000-NumPy",
+        "entry_point": "l2_normalize_rows",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    norms = np.linalg.norm(X, axis=1, keepdims=True)\n    return X / (norms + 1e-12)  # Add small epsilon to avoid division by zero\n\n"
+      },
+      {
+        "id": "DS1000-PD/1",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "filter_and_sort_df",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return (\n        df[df[col] >= min_val]\n        .sort_values(by=col, ascending=False)\n        .reset_index(drop=True)\n    )\n\n"
+      },
+      {
+        "id": "DS1000-PD/2",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "fillna_with_column_median",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return df[col].fillna(df[col].median())\n\n"
+      },
+      {
+        "id": "DS1000-PD/3",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "groupby_mean_dict",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return df.groupby(group_col)[val_col].mean().to_dict()\n\n"
+      },
+      {
+        "id": "DS1000-PD/4",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "rolling_mean_series",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return df[col].rolling(window=window, min_periods=1).mean()\n\n"
+      },
+      {
+        "id": "DS1000-ML/5",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "mean_squared_error_np",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return float(np.mean((y_true - y_pred) ** 2))\n\n"
+      },
+      {
+        "id": "DS1000-ML/6",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "r2_score_np",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    ss_res = np.sum((y_true - y_pred) ** 2)\n    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)\n    return 1 - (ss_res / ss_tot)\n\n"
+      },
+      {
+        "id": "DS1000-ML/7",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "binary_accuracy",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    y_pred = (y_prob >= threshold).astype(int)\n    return np.mean(y_pred == y_true)\n\n"
+      },
+      {
+        "id": "DS1000-ML/8",
+        "domain": "DS1000-Pandas-ML",
+        "entry_point": "sigmoid_np",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    return 1 / (1 + np.exp(-x))\n\n"
+      },
+      {
+        "id": "AlgoGen/7",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "solve",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "0 <= min(out) and max(out) <= 255\n    return out\n\n"
+      },
+      {
+        "id": "AlgoGen/13",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "solve",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "1 if comps == 0 else comps - 1\n    return comps\n\n"
+      },
+      {
+        "id": "AlgoGen/29",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "solve",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "0 <= x < m1 * m2\n            return x\n    return 'No solution'\n\n"
+      },
+      {
+        "id": "AlgoGen/18",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "kmp_lps",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": " lps[length - 1]\n        else:\n            lps[i] = 0\n            i += 1\n    return lps\n\n\n"
+      },
+      {
+        "id": "AlgoGen/2",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "fenwick_prefix_sum",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "        s += tree[k]\n        k -= k & -k\n    return s\n\n"
+      },
+      {
+        "id": "AlgoGen/5",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "max_subarray_kadane",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "    max_sum = float(\"-inf\")\n    current_sum = 0\n    for num in nums:\n        current_sum = max(num, current_sum + num)\n        max_sum = max(max_sum, current_sum)\n    return max_sum\n\n"
+      },
+      {
+        "id": "AlgoGen/27",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "kruskal_mst_weight",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "        ru, rv = find(u), find(v)\n        if ru != rv:\n            parent[ru] = rv\n            total += w\n    return total\n\n"
+      },
+      {
+        "id": "AlgoGen/30",
+        "domain": "Algo-OpenEnded",
+        "entry_point": "dijkstra_shortest_path",
+        "passed": true,
+        "assertions_passed": 4,
+        "assertions_total": 4,
+        "error": "",
+        "generated_body": "            nd = d + w\n            if nd < dist[v]:\n                dist[v] = nd\n                heapq.heappush(pq, (nd, v))\n    return -1 if dist[dst] == float('inf') else dist[dst]\n\n"
+      }
+    ]
+  }
+}

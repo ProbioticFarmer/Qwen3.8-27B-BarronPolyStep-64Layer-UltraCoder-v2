@@ -417,3 +417,292 @@ class MLXQwen38Engine:
             "h63_base_pref_last": h63_base_pref_last,
             "h63_base_suff": h63_base_suff,
         }
+
+    def generate_batch(
+        self,
+        prompts: List[str],
+        max_new_tokens: int = 128,
+        lora: Optional[Dict[str, mx.array]] = None,
+        lora_scale: float = 1.0,
+    ) -> List[str]:
+        """Fast batched autoregressive generation with GatedDeltaNet state caching and Full-Attn KV caching."""
+        B = len(prompts)
+        tok_lists = [self.tokenizer.encode(p).ids for p in prompts]
+        L_p = max(len(x) for x in tok_lists)
+        pref_pad_lens = [L_p - len(x) for x in tok_lists]
+        pref_arr = mx.zeros((B, L_p), dtype=mx.int32)
+        for b, ids in enumerate(tok_lists):
+            pad_l = pref_pad_lens[b]
+            pref_arr[b, pad_l:] = mx.array(ids, dtype=mx.int32)
+
+        idx_p = mx.arange(L_p)[None, :]
+        pad_arr = mx.array(pref_pad_lens, dtype=mx.int32)[:, None]
+        valid_p_2d = idx_p >= pad_arr
+        valid_p = valid_p_2d[:, :, None].astype(mx.bfloat16)
+
+        causal_p = mx.tril(mx.ones((L_p, L_p), dtype=mx.bool_))[None, None, :, :]
+        valid_k_p = valid_p_2d[:, None, None, :]
+        attn_mask_p = mx.where(causal_p & valid_k_p, mx.array(0.0, dtype=mx.bfloat16), mx.array(-1e9, dtype=mx.bfloat16))
+
+        h = self.weights["model.language_model.embed_tokens.weight"][pref_arr] * valid_p
+        nk, dk, nv, dv = 16, 128, 48, 128
+        key_dim = nk * dk
+        val_dim = nv * dv
+        inv_scale = dk ** -0.5
+        nh, nkv, hd = 24, 4, 256
+        attn_scale = hd ** -0.5
+
+        conv_states: Dict[int, mx.array] = {}
+        delta_states: Dict[int, mx.array] = {}
+        k_caches: Dict[int, mx.array] = {}
+        v_caches: Dict[int, mx.array] = {}
+
+        # 1. Prefill all 64 layers
+        for l in range(64):
+            lp = f"model.language_model.layers.{l}"
+            peft_lp = f"base_model.model.language_model.layers.{l}"
+            w_in_norm = self.weights[f"{lp}.input_layernorm.weight"]
+            h_in = mx.fast.rms_norm(h, w_in_norm, 1e-6) * valid_p
+
+            if l % 4 != 3:
+                p = f"{lp}.linear_attn"
+                peft_p = f"{peft_lp}.linear_attn"
+                w_qkv = self.weights[f"{p}.in_proj_qkv.weight"].T
+                w_z = self.weights[f"{p}.in_proj_z.weight"].T
+                w_b = self.weights[f"{p}.in_proj_b.weight"].T
+                w_a = self.weights[f"{p}.in_proj_a.weight"].T
+                w_conv = self.weights[f"{p}.conv1d.weight"]
+                A_log = self.weights[f"{p}.A_log"]
+                dt_bias = self.weights[f"{p}.dt_bias"]
+                w_norm = self.weights[f"{p}.norm.weight"]
+                w_out = self.weights[f"{p}.out_proj.weight"].T
+
+                mqkv_p = (h_in @ w_qkv) * valid_p
+                z_p = (h_in @ w_z).reshape(B, L_p, nv, dv)
+                b_p = h_in @ w_b
+                a_p = h_in @ w_a
+
+                conv_in_p = mx.concatenate([mx.zeros((B, 3, 10240), dtype=h.dtype), mqkv_p], axis=1)
+                conv_states[l] = conv_in_p[:, -3:, :]
+                conv_out_p = nn.silu(mx.conv1d(conv_in_p, w_conv, groups=10240)) * valid_p
+                q_p, k_p, v_p = mx.split(conv_out_p, [key_dim, 2 * key_dim], axis=-1)
+                q_p = (inv_scale ** 2) * mx.fast.rms_norm(q_p.reshape(B, L_p, nk, dk), None, 1e-6)
+                k_p = inv_scale * mx.fast.rms_norm(k_p.reshape(B, L_p, nk, dk), None, 1e-6)
+                v_p = v_p.reshape(B, L_p, nv, dv) * valid_p[:, :, :, None]
+
+                y_p, d_state = gated_delta_update(q_p, k_p, v_p, a_p, b_p, A_log, dt_bias)
+                delta_states[l] = d_state
+                y_p_norm = (mx.fast.rms_norm(y_p, w_norm, 1e-6) * nn.silu(z_p)).reshape(B, L_p, val_dim)
+                out_p = y_p_norm @ w_out
+                if lora and f"{peft_p}.out_proj.lora_A.weight" in lora:
+                    la = lora[f"{peft_p}.out_proj.lora_A.weight"]
+                    lb = lora[f"{peft_p}.out_proj.lora_B.weight"]
+                    out_p = out_p + ((y_p_norm @ la.T) @ lb.T) * lora_scale
+                h = (h + out_p) * valid_p
+            else:
+                p = f"{lp}.self_attn"
+                peft_p = f"{peft_lp}.self_attn"
+                w_q = self.weights[f"{p}.q_proj.weight"].T
+                w_k = self.weights[f"{p}.k_proj.weight"].T
+                w_v = self.weights[f"{p}.v_proj.weight"].T
+                w_qn = self.weights[f"{p}.q_norm.weight"]
+                w_kn = self.weights[f"{p}.k_norm.weight"]
+                w_o = self.weights[f"{p}.o_proj.weight"].T
+
+                q_out_p = (h_in @ w_q).reshape(B, L_p, nh, hd * 2)
+                queries_p, gate_p = mx.split(q_out_p, [hd], axis=-1)
+                gate_p = gate_p.reshape(B, L_p, nh * hd)
+                keys_p = (h_in @ w_k).reshape(B, L_p, nkv, hd)
+                values_p = (h_in @ w_v).reshape(B, L_p, nkv, hd)
+
+                queries_p = mx.fast.rms_norm(queries_p, w_qn, 1e-6).transpose(0, 2, 1, 3)
+                keys_p = mx.fast.rms_norm(keys_p, w_kn, 1e-6).transpose(0, 2, 1, 3)
+                values_p = values_p.transpose(0, 2, 1, 3)
+
+                queries_p = mx.fast.rope(queries_p, dims=64, traditional=False, base=10_000_000.0, scale=1.0, offset=0)
+                keys_p = mx.fast.rope(keys_p, dims=64, traditional=False, base=10_000_000.0, scale=1.0, offset=0)
+                k_caches[l] = keys_p
+                v_caches[l] = values_p
+
+                attn_p = mx.fast.scaled_dot_product_attention(queries_p, keys_p, values_p, scale=attn_scale, mask=attn_mask_p)
+                gated_p = attn_p.transpose(0, 2, 1, 3).reshape(B, L_p, nh * hd) * mx.sigmoid(gate_p)
+                out_p = gated_p @ w_o
+                if lora and f"{peft_p}.o_proj.lora_A.weight" in lora:
+                    la = lora[f"{peft_p}.o_proj.lora_A.weight"]
+                    lb = lora[f"{peft_p}.o_proj.lora_B.weight"]
+                    out_p = out_p + ((gated_p @ la.T) @ lb.T) * lora_scale
+                h = (h + out_p) * valid_p
+
+            w_post_norm = self.weights[f"{lp}.post_attention_layernorm.weight"]
+            h_post = mx.fast.rms_norm(h, w_post_norm, 1e-6) * valid_p
+            p_mlp = f"{lp}.mlp"
+            peft_mlp = f"{peft_lp}.mlp"
+            w_gate = self.weights[f"{p_mlp}.gate_proj.weight"].T
+            w_up = self.weights[f"{p_mlp}.up_proj.weight"].T
+            w_down = self.weights[f"{p_mlp}.down_proj.weight"].T
+
+            act_p = nn.silu(h_post @ w_gate) * (h_post @ w_up)
+            out_mlp_p = act_p @ w_down
+            h = (h + out_mlp_p) * valid_p
+            if lora and f"{peft_mlp}.down_proj.lora_A.weight" in lora:
+                la = lora[f"{peft_mlp}.down_proj.lora_A.weight"]
+                lb = lora[f"{peft_mlp}.down_proj.lora_B.weight"]
+                if l == 63:
+                    lora_dp = ((act_p.astype(mx.float32) @ la.astype(mx.float32).T) @ lb.astype(mx.float32).T) * lora_scale
+                    h = (h.astype(mx.float32) + lora_dp) * valid_p.astype(mx.float32)
+                else:
+                    h = (h + ((act_p @ la.T) @ lb.T) * lora_scale) * valid_p
+
+            if l % 8 == 7:
+                mx.eval(h)
+
+        w_final = self.weights["model.language_model.norm.weight"]
+        w_lm = self.weights["lm_head.weight"]
+        h_last = mx.fast.rms_norm(h[:, -1:, :], w_final.astype(h.dtype), 1e-6).astype(mx.bfloat16)
+        next_tok = mx.argmax(h_last[:, 0, :] @ w_lm.T, axis=-1)
+        mx.eval(next_tok)
+
+        generated_ids: List[List[int]] = [[int(next_tok[b])] for b in range(B)]
+
+        # 2. Decode single token at a time across all B prompts
+        for step in range(1, max_new_tokens):
+            cur_pos = L_p + step - 1
+            tok_in = next_tok[:, None]  # [B, 1]
+            h_step = self.weights["model.language_model.embed_tokens.weight"][tok_in]  # [B, 1, 5120]
+
+            idx_all = mx.arange(cur_pos + 1)[None, :]
+            valid_k_step = (idx_all >= pad_arr)[:, None, None, :]  # [B, 1, 1, cur_pos + 1]
+            attn_mask_step = mx.where(valid_k_step, mx.array(0.0, dtype=mx.bfloat16), mx.array(-1e9, dtype=mx.bfloat16))
+
+            for l in range(64):
+                lp = f"model.language_model.layers.{l}"
+                peft_lp = f"base_model.model.language_model.layers.{l}"
+                w_in_norm = self.weights[f"{lp}.input_layernorm.weight"]
+                h_in = mx.fast.rms_norm(h_step, w_in_norm, 1e-6)
+
+                if l % 4 != 3:
+                    p = f"{lp}.linear_attn"
+                    peft_p = f"{peft_lp}.linear_attn"
+                    w_qkv = self.weights[f"{p}.in_proj_qkv.weight"].T
+                    w_z = self.weights[f"{p}.in_proj_z.weight"].T
+                    w_b = self.weights[f"{p}.in_proj_b.weight"].T
+                    w_a = self.weights[f"{p}.in_proj_a.weight"].T
+                    w_conv = self.weights[f"{p}.conv1d.weight"]
+                    A_log = self.weights[f"{p}.A_log"]
+                    dt_bias = self.weights[f"{p}.dt_bias"]
+                    w_norm = self.weights[f"{p}.norm.weight"]
+                    w_out = self.weights[f"{p}.out_proj.weight"].T
+
+                    mqkv_s = h_in @ w_qkv
+                    z_s = (h_in @ w_z).reshape(B, 1, nv, dv)
+                    b_s = h_in @ w_b
+                    a_s = h_in @ w_a
+
+                    conv_in_s = mx.concatenate([conv_states[l], mqkv_s], axis=1)
+                    conv_states[l] = conv_in_s[:, -3:, :]
+                    conv_out_s = nn.silu(mx.conv1d(conv_in_s, w_conv, groups=10240))
+                    q_s, k_s, v_s = mx.split(conv_out_s, [key_dim, 2 * key_dim], axis=-1)
+                    q_s = (inv_scale ** 2) * mx.fast.rms_norm(q_s.reshape(B, 1, nk, dk), None, 1e-6)
+                    k_s = inv_scale * mx.fast.rms_norm(k_s.reshape(B, 1, nk, dk), None, 1e-6)
+                    v_s = v_s.reshape(B, 1, nv, dv)
+
+                    y_s, d_state = gated_delta_update(q_s, k_s, v_s, a_s, b_s, A_log, dt_bias, state=delta_states[l])
+                    delta_states[l] = d_state
+                    y_s_norm = (mx.fast.rms_norm(y_s, w_norm, 1e-6) * nn.silu(z_s)).reshape(B, 1, val_dim)
+                    out_s = y_s_norm @ w_out
+                    if lora and f"{peft_p}.out_proj.lora_A.weight" in lora:
+                        la = lora[f"{peft_p}.out_proj.lora_A.weight"]
+                        lb = lora[f"{peft_p}.out_proj.lora_B.weight"]
+                        out_s = out_s + ((y_s_norm @ la.T) @ lb.T) * lora_scale
+                    h_step = h_step + out_s
+                else:
+                    p = f"{lp}.self_attn"
+                    peft_p = f"{peft_lp}.self_attn"
+                    w_q = self.weights[f"{p}.q_proj.weight"].T
+                    w_k = self.weights[f"{p}.k_proj.weight"].T
+                    w_v = self.weights[f"{p}.v_proj.weight"].T
+                    w_qn = self.weights[f"{p}.q_norm.weight"]
+                    w_kn = self.weights[f"{p}.k_norm.weight"]
+                    w_o = self.weights[f"{p}.o_proj.weight"].T
+
+                    q_out_s = (h_in @ w_q).reshape(B, 1, nh, hd * 2)
+                    queries_s, gate_s = mx.split(q_out_s, [hd], axis=-1)
+                    gate_s = gate_s.reshape(B, 1, nh * hd)
+                    keys_s = (h_in @ w_k).reshape(B, 1, nkv, hd)
+                    values_s = (h_in @ w_v).reshape(B, 1, nkv, hd)
+
+                    queries_s = mx.fast.rms_norm(queries_s, w_qn, 1e-6).transpose(0, 2, 1, 3)
+                    keys_s = mx.fast.rms_norm(keys_s, w_kn, 1e-6).transpose(0, 2, 1, 3)
+                    values_s = values_s.transpose(0, 2, 1, 3)
+
+                    queries_s = mx.fast.rope(queries_s, dims=64, traditional=False, base=10_000_000.0, scale=1.0, offset=cur_pos)
+                    keys_s = mx.fast.rope(keys_s, dims=64, traditional=False, base=10_000_000.0, scale=1.0, offset=cur_pos)
+
+                    k_caches[l] = mx.concatenate([k_caches[l], keys_s], axis=2)
+                    v_caches[l] = mx.concatenate([v_caches[l], values_s], axis=2)
+
+                    attn_s = mx.fast.scaled_dot_product_attention(
+                        queries_s, k_caches[l], v_caches[l], scale=attn_scale, mask=attn_mask_step
+                    )
+                    gated_s = attn_s.transpose(0, 2, 1, 3).reshape(B, 1, nh * hd) * mx.sigmoid(gate_s)
+                    out_s = gated_s @ w_o
+                    if lora and f"{peft_p}.o_proj.lora_A.weight" in lora:
+                        la = lora[f"{peft_p}.o_proj.lora_A.weight"]
+                        lb = lora[f"{peft_p}.o_proj.lora_B.weight"]
+                        out_s = out_s + ((gated_s @ la.T) @ lb.T) * lora_scale
+                    h_step = h_step + out_s
+
+                w_post_norm = self.weights[f"{lp}.post_attention_layernorm.weight"]
+                h_post = mx.fast.rms_norm(h_step, w_post_norm, 1e-6)
+                p_mlp = f"{lp}.mlp"
+                peft_mlp = f"{peft_lp}.mlp"
+                w_gate = self.weights[f"{p_mlp}.gate_proj.weight"].T
+                w_up = self.weights[f"{p_mlp}.up_proj.weight"].T
+                w_down = self.weights[f"{p_mlp}.down_proj.weight"].T
+
+                act_s = nn.silu(h_post @ w_gate) * (h_post @ w_up)
+                out_mlp_s = act_s @ w_down
+                h_step = h_step + out_mlp_s
+                if lora and f"{peft_mlp}.down_proj.lora_A.weight" in lora:
+                    la = lora[f"{peft_mlp}.down_proj.lora_A.weight"]
+                    lb = lora[f"{peft_mlp}.down_proj.lora_B.weight"]
+                    if l == 63:
+                        lora_ds = ((act_s.astype(mx.float32) @ la.astype(mx.float32).T) @ lb.astype(mx.float32).T) * lora_scale
+                        h_step = h_step.astype(mx.float32) + lora_ds
+                    else:
+                        h_step = h_step + ((act_s @ la.T) @ lb.T) * lora_scale
+
+                if l % 16 == 15:
+                    mx.eval(h_step)
+
+            h_last = mx.fast.rms_norm(h_step, w_final.astype(h_step.dtype), 1e-6).astype(mx.bfloat16)
+            next_tok = mx.argmax(h_last[:, 0, :] @ w_lm.T, axis=-1)
+            mx.eval(next_tok)
+            for b in range(B):
+                generated_ids[b].append(int(next_tok[b]))
+            if step >= 12 and step % 4 == 3:
+                all_done = True
+                for b in range(B):
+                    txt = self.tokenizer.decode(generated_ids[b])
+                    lines = txt.splitlines()
+                    kept = []
+                    finished_b = False
+                    for line in lines:
+                        st = line.strip()
+                        if kept and st and not line.startswith((" ", "\t")):
+                            finished_b = True
+                            break
+                        if st.startswith(("def ", "class ", "if __name__", "# Test", "# Example", "print(", "assert ")):
+                            if kept:
+                                finished_b = True
+                                break
+                        kept.append(line)
+                    if not finished_b and "\n\n" in txt and "return " in txt:
+                        finished_b = True
+                    if not finished_b:
+                        all_done = False
+                        break
+                if all_done:
+                    break
+
+        return [self.tokenizer.decode(ids) for ids in generated_ids]
