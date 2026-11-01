@@ -16,17 +16,22 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import time
 
 import mlx.core as mx
 import numpy as np
+
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
 
 from src.coding_tasks import PYTHON_DS_BENCHMARK_SPECS, ULTRA_32_SPECS
 from src.extract_real_qwen38_features import get_slot_prefix_and_options
 from src.mlx_qwen38_gpu import MLXQwen38Engine
 
 CKPT_DIR = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    ROOT_DIR,
     "checkpoints",
     "Qwen3.8-27B-BarronPolyStep-RealCoder-v3",
 )
