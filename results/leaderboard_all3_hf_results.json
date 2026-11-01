@@ -1,20 +1,46 @@
 {
-  "title": "Uncapped 3-Step Public Leaderboard Execution, Standalone 27B Merge Verification & Submission Pipeline",
+  "title": "280x Barron-PolyStep + 40x DeepSeek Distillation (`RealCoder-v5`) Public Leaderboard Execution, Standalone 27B Merge Verification & Submission Pipeline",
   "hardware": {
     "platform": "Hugging Face Compute Jobs (a100-large)",
     "gpu_name": "NVIDIA A100-SXM4-80GB",
     "vram_total_gb": 79.25,
-    "elapsed_sec": 2244.64
+    "elapsed_sec": 2926.85
+  },
+  "step0_polystep_v5_280x_training": {
+    "scale_vs_original_v3": "282.4x (24,000 PolyStep steps vs 85 original steps; 4,070,400 cross-polytope vertex evals)",
+    "scale_vs_prev_v4": "40.0x (24,000 steps + 40-temperature DeepSeek teacher distillation ensemble)",
+    "total_steps": 24000,
+    "total_vertex_evaluations": 4070400,
+    "num_tasks": 100,
+    "num_slots": 400,
+    "num_candidates": 1600,
+    "num_token_positions": 7841,
+    "bf16_hits_total": "399/400",
+    "bf16_hits_pct": 99.75,
+    "polystep_224_hits": "224/224",
+    "expanded_64_hits": "63/64",
+    "deepseek_112_hits": "112/112",
+    "min_margin": -0.2667,
+    "mean_margin": 1.1878,
+    "hard25_min_margin": 0.0823,
+    "hard25_mean_margin": 0.3028,
+    "cliff_preserved": "3155/3155",
+    "lb_63_down_norm": 5.2881,
+    "lb_63_down_null_norm": 5.0989,
+    "lb_63_down_ang_norm": 1.402,
+    "lb_63_attn_norm": 2.1288,
+    "lb_62_attn_norm": 1.8008,
+    "elapsed_sec": 204.33
   },
   "step1_bigcodebench_hard_148": {
     "dataset": "bigcode/bigcodebench-hard (official 148-task split, max_new_tokens=640)",
     "num_tasks": 148,
-    "base_passed": 40,
-    "base_pct": 27.03,
-    "polystep_passed": 43,
-    "polystep_pct": 29.05,
+    "base_passed": 41,
+    "base_pct": 27.7,
+    "polystep_passed": 44,
+    "polystep_pct": 29.73,
     "gain_pct": 2.03,
-    "juncture_branches_switched": 33,
+    "juncture_branches_switched": 46,
     "tasks": [
       {
         "task_id": "BigCodeBench/13",
@@ -42,8 +68,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t64",
-        "elapsed_sec": 21.68
+        "selected_source": "polystep_juncture_t60",
+        "elapsed_sec": 19.82,
+        "num_tokens": 182
       },
       {
         "task_id": "BigCodeBench/19",
@@ -61,7 +88,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 22.2
+        "elapsed_sec": 10.3,
+        "num_tokens": 129
       },
       {
         "task_id": "BigCodeBench/37",
@@ -108,25 +136,28 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 12.2
+        "elapsed_sec": 19.97,
+        "num_tokens": 138
       },
       {
         "task_id": "BigCodeBench/99",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 14.38
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t27",
+        "elapsed_sec": 28.29,
+        "num_tokens": 159
       },
       {
         "task_id": "BigCodeBench/100",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 13.42
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t78",
+        "elapsed_sec": 19.33,
+        "num_tokens": 176
       },
       {
         "task_id": "BigCodeBench/101",
@@ -155,7 +186,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 19.61
+        "elapsed_sec": 9.89,
+        "num_tokens": 119
       },
       {
         "task_id": "BigCodeBench/123",
@@ -171,9 +203,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 13.59
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t70",
+        "elapsed_sec": 20.74,
+        "num_tokens": 188
       },
       {
         "task_id": "BigCodeBench/129",
@@ -201,7 +234,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 12.4
+        "elapsed_sec": 20.55,
+        "num_tokens": 156
       },
       {
         "task_id": "BigCodeBench/161",
@@ -245,9 +279,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 15.0
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t37",
+        "elapsed_sec": 22.32,
+        "num_tokens": 182
       },
       {
         "task_id": "BigCodeBench/199",
@@ -284,8 +319,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t22",
-        "elapsed_sec": 18.85
+        "selected_source": "polystep_juncture_t28",
+        "elapsed_sec": 11.41,
+        "num_tokens": 69
       },
       {
         "task_id": "BigCodeBench/227",
@@ -312,18 +348,20 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 11.98
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t32",
+        "elapsed_sec": 12.87,
+        "num_tokens": 90
       },
       {
         "task_id": "BigCodeBench/267",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 9.15
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t14",
+        "elapsed_sec": 9.08,
+        "num_tokens": 69
       },
       {
         "task_id": "BigCodeBench/273",
@@ -351,8 +389,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t4",
-        "elapsed_sec": 13.11
+        "selected_source": "polystep_juncture_t8",
+        "elapsed_sec": 12.05,
+        "num_tokens": 99
       },
       {
         "task_id": "BigCodeBench/302",
@@ -377,9 +416,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t31",
-        "elapsed_sec": 36.8
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 31.66,
+        "num_tokens": 258
       },
       {
         "task_id": "BigCodeBench/313",
@@ -387,18 +427,19 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t1",
-        "elapsed_sec": 32.85,
-        "num_tokens": 166
+        "selected_source": "polystep_juncture_t157",
+        "elapsed_sec": 33.65,
+        "num_tokens": 365
       },
       {
         "task_id": "BigCodeBench/324",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 27.3
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t10",
+        "elapsed_sec": 20.95,
+        "num_tokens": 171
       },
       {
         "task_id": "BigCodeBench/326",
@@ -407,7 +448,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 7.44
+        "elapsed_sec": 10.12,
+        "num_tokens": 83
       },
       {
         "task_id": "BigCodeBench/341",
@@ -416,16 +458,18 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 20.15
+        "elapsed_sec": 22.05,
+        "num_tokens": 191
       },
       {
         "task_id": "BigCodeBench/346",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 13.6
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t14",
+        "elapsed_sec": 9.72,
+        "num_tokens": 63
       },
       {
         "task_id": "BigCodeBench/360",
@@ -451,27 +495,30 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t9",
-        "elapsed_sec": 14.45
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 11.19,
+        "num_tokens": 87
       },
       {
         "task_id": "BigCodeBench/374",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 14.4
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t10",
+        "elapsed_sec": 13.66,
+        "num_tokens": 100
       },
       {
         "task_id": "BigCodeBench/399",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 12.9
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t63",
+        "elapsed_sec": 19.41,
+        "num_tokens": 172
       },
       {
         "task_id": "BigCodeBench/401",
@@ -498,7 +545,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 28.65
+        "elapsed_sec": 42.46,
+        "num_tokens": 191
       },
       {
         "task_id": "BigCodeBench/418",
@@ -515,18 +563,20 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t56",
-        "elapsed_sec": 40.7
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 29.74,
+        "num_tokens": 285
       },
       {
         "task_id": "BigCodeBench/443",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 22.45
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t50",
+        "elapsed_sec": 19.64,
+        "num_tokens": 148
       },
       {
         "task_id": "BigCodeBench/445",
@@ -552,8 +602,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t118",
-        "elapsed_sec": 23.35
+        "selected_source": "polystep_juncture_t139",
+        "elapsed_sec": 10.86,
+        "num_tokens": 147
       },
       {
         "task_id": "BigCodeBench/461",
@@ -562,16 +613,18 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 19.77
+        "elapsed_sec": 25.97,
+        "num_tokens": 184
       },
       {
         "task_id": "BigCodeBench/477",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t11",
-        "elapsed_sec": 41.79
+        "base_passed": true,
+        "polystep_passed": true,
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 30.51,
+        "num_tokens": 244
       },
       {
         "task_id": "BigCodeBench/486",
@@ -599,7 +652,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 13.2
+        "elapsed_sec": 16.59,
+        "num_tokens": 162
       },
       {
         "task_id": "BigCodeBench/502",
@@ -608,7 +662,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 14.89
+        "elapsed_sec": 10.8,
+        "num_tokens": 133
       },
       {
         "task_id": "BigCodeBench/503",
@@ -616,8 +671,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t57",
-        "elapsed_sec": 26.59
+        "selected_source": "polystep_juncture_t35",
+        "elapsed_sec": 21.37,
+        "num_tokens": 201
       },
       {
         "task_id": "BigCodeBench/509",
@@ -663,9 +719,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 12.8
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t77",
+        "elapsed_sec": 22.36,
+        "num_tokens": 220
       },
       {
         "task_id": "BigCodeBench/530",
@@ -674,7 +731,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 13.9
+        "elapsed_sec": 20.57,
+        "num_tokens": 175
       },
       {
         "task_id": "BigCodeBench/532",
@@ -690,18 +748,20 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 8.34
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t23",
+        "elapsed_sec": 8.89,
+        "num_tokens": 70
       },
       {
         "task_id": "BigCodeBench/560",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 20.3
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t57",
+        "elapsed_sec": 16.51,
+        "num_tokens": 137
       },
       {
         "task_id": "BigCodeBench/567",
@@ -710,7 +770,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 12.65
+        "elapsed_sec": 8.13,
+        "num_tokens": 75
       },
       {
         "task_id": "BigCodeBench/574",
@@ -719,7 +780,7 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 11.19,
+        "elapsed_sec": 13.38,
         "num_tokens": 145
       },
       {
@@ -727,18 +788,20 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 17.9
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t34",
+        "elapsed_sec": 24.79,
+        "num_tokens": 216
       },
       {
         "task_id": "BigCodeBench/582",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 16.0
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t7",
+        "elapsed_sec": 27.24,
+        "num_tokens": 193
       },
       {
         "task_id": "BigCodeBench/583",
@@ -747,25 +810,28 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 27.55
+        "elapsed_sec": 23.15,
+        "num_tokens": 174
       },
       {
         "task_id": "BigCodeBench/587",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t22",
-        "elapsed_sec": 54.64
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 27.51,
+        "num_tokens": 284
       },
       {
         "task_id": "BigCodeBench/590",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 20.6
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t109",
+        "elapsed_sec": 14.88,
+        "num_tokens": 161
       },
       {
         "task_id": "BigCodeBench/592",
@@ -813,7 +879,8 @@
         "polystep_passed": false,
         "switched_branch": true,
         "selected_source": "polystep_juncture_t39",
-        "elapsed_sec": 13.78
+        "elapsed_sec": 11.97,
+        "num_tokens": 88
       },
       {
         "task_id": "BigCodeBench/637",
@@ -841,17 +908,19 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t30",
-        "elapsed_sec": 43.05
+        "selected_source": "polystep_juncture_t50",
+        "elapsed_sec": 33.22,
+        "num_tokens": 270
       },
       {
         "task_id": "BigCodeBench/657",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 23.8
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t25",
+        "elapsed_sec": 17.78,
+        "num_tokens": 130
       },
       {
         "task_id": "BigCodeBench/678",
@@ -868,9 +937,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 14.45
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t30",
+        "elapsed_sec": 24.23,
+        "num_tokens": 213
       },
       {
         "task_id": "BigCodeBench/723",
@@ -879,7 +949,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 12.3
+        "elapsed_sec": 11.57,
+        "num_tokens": 164
       },
       {
         "task_id": "BigCodeBench/752",
@@ -916,9 +987,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t40",
-        "elapsed_sec": 9.21
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 7.43,
+        "num_tokens": 76
       },
       {
         "task_id": "BigCodeBench/771",
@@ -927,7 +999,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 9.48
+        "elapsed_sec": 8.86,
+        "num_tokens": 130
       },
       {
         "task_id": "BigCodeBench/777",
@@ -943,9 +1016,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t46",
-        "elapsed_sec": 15.05
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 10.94,
+        "num_tokens": 125
       },
       {
         "task_id": "BigCodeBench/800",
@@ -963,7 +1037,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 4.75
+        "elapsed_sec": 7.44,
+        "num_tokens": 62
       },
       {
         "task_id": "BigCodeBench/845",
@@ -990,17 +1065,19 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t28",
-        "elapsed_sec": 11.39
+        "selected_source": "polystep_juncture_t17",
+        "elapsed_sec": 10.75,
+        "num_tokens": 87
       },
       {
         "task_id": "BigCodeBench/865",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t59",
-        "elapsed_sec": 10.0
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 9.3,
+        "num_tokens": 71
       },
       {
         "task_id": "BigCodeBench/870",
@@ -1018,7 +1095,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 16.01
+        "elapsed_sec": 20.61,
+        "num_tokens": 195
       },
       {
         "task_id": "BigCodeBench/897",
@@ -1034,9 +1112,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t18",
-        "elapsed_sec": 21.05
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 12.77,
+        "num_tokens": 155
       },
       {
         "task_id": "BigCodeBench/914",
@@ -1053,8 +1132,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t3",
-        "elapsed_sec": 26.15
+        "selected_source": "polystep_juncture_t58",
+        "elapsed_sec": 15.4,
+        "num_tokens": 139
       },
       {
         "task_id": "BigCodeBench/916",
@@ -1070,18 +1150,20 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 14.9
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t7",
+        "elapsed_sec": 26.46,
+        "num_tokens": 192
       },
       {
         "task_id": "BigCodeBench/928",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 12.55
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t73",
+        "elapsed_sec": 10.01,
+        "num_tokens": 112
       },
       {
         "task_id": "BigCodeBench/942",
@@ -1110,16 +1192,18 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 13.05
+        "elapsed_sec": 14.15,
+        "num_tokens": 171
       },
       {
         "task_id": "BigCodeBench/955",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 15.25
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t26",
+        "elapsed_sec": 30.83,
+        "num_tokens": 295
       },
       {
         "task_id": "BigCodeBench/963",
@@ -1128,7 +1212,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 14.15
+        "elapsed_sec": 15.49,
+        "num_tokens": 188
       },
       {
         "task_id": "BigCodeBench/964",
@@ -1146,17 +1231,19 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t38",
-        "elapsed_sec": 18.75
+        "selected_source": "polystep_juncture_t37",
+        "elapsed_sec": 14.79,
+        "num_tokens": 112
       },
       {
         "task_id": "BigCodeBench/971",
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t10",
-        "elapsed_sec": 25.9
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 13.77,
+        "num_tokens": 135
       },
       {
         "task_id": "BigCodeBench/985",
@@ -1222,9 +1309,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 17.1
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t82",
+        "elapsed_sec": 17.91,
+        "num_tokens": 175
       },
       {
         "task_id": "BigCodeBench/1006",
@@ -1251,9 +1339,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t5",
-        "elapsed_sec": 33.4,
-        "num_tokens": 192
+        "selected_source": "polystep_juncture_t159",
+        "elapsed_sec": 21.9,
+        "num_tokens": 218
       },
       {
         "task_id": "BigCodeBench/1013",
@@ -1281,7 +1369,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 21.4
+        "elapsed_sec": 9.23,
+        "num_tokens": 132
       },
       {
         "task_id": "BigCodeBench/1020",
@@ -1299,7 +1388,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 26.2
+        "elapsed_sec": 10.97,
+        "num_tokens": 144
       },
       {
         "task_id": "BigCodeBench/1039",
@@ -1328,7 +1418,7 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 32.79,
+        "elapsed_sec": 37.79,
         "num_tokens": 139
       },
       {
@@ -1366,7 +1456,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 12.5
+        "elapsed_sec": 16.18,
+        "num_tokens": 160
       },
       {
         "task_id": "BigCodeBench/1124",
@@ -1383,8 +1474,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t57",
-        "elapsed_sec": 16.66
+        "selected_source": "polystep_juncture_t60",
+        "elapsed_sec": 11.5,
+        "num_tokens": 121
       },
       {
         "task_id": "BigCodeBench/1137",
@@ -1399,42 +1491,42 @@
   },
   "step2_evalplus_full_164_378": {
     "humaneval_num_tasks": 164,
-    "base_humaneval_passed": 125,
-    "base_humaneval_pct": 76.22,
-    "humaneval_passed": 127,
-    "humaneval_pct": 77.44,
-    "base_humaneval_plus_passed": 112,
-    "base_humaneval_plus_pct": 68.29,
-    "humaneval_plus_passed": 120,
-    "humaneval_plus_pct": 73.17,
+    "base_humaneval_passed": 117,
+    "base_humaneval_pct": 71.34,
+    "humaneval_passed": 130,
+    "humaneval_pct": 79.27,
+    "base_humaneval_plus_passed": 117,
+    "base_humaneval_plus_pct": 71.34,
+    "humaneval_plus_passed": 130,
+    "humaneval_plus_pct": 79.27,
     "mbpp_num_tasks": 378,
-    "base_mbpp_passed": 278,
-    "base_mbpp_pct": 73.54,
-    "mbpp_passed": 283,
-    "mbpp_pct": 74.87,
-    "base_mbpp_plus_passed": 230,
-    "base_mbpp_plus_pct": 60.85,
-    "mbpp_plus_passed": 234,
-    "mbpp_plus_pct": 61.9,
-    "mbpp_gain_pct": 1.32,
-    "mbpp_plus_gain_pct": 1.06
+    "base_mbpp_passed": 327,
+    "base_mbpp_pct": 86.51,
+    "mbpp_passed": 345,
+    "mbpp_pct": 91.27,
+    "base_mbpp_plus_passed": 281,
+    "base_mbpp_plus_pct": 74.34,
+    "mbpp_plus_passed": 294,
+    "mbpp_plus_pct": 77.78,
+    "mbpp_gain_pct": 4.76,
+    "mbpp_plus_gain_pct": 3.44
   },
   "step3_standalone_27b_merge_verification": {
     "merge_functional_verified": true,
     "merged_repo_id": "ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-Merged",
     "merged_repo_url": "https://huggingface.co/ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-Merged",
-    "merged_revision_sha": "3cf486b14c881873523c5635d7bf3950c7d33a29",
-    "frob_delta_norm": 5.7128,
+    "merged_revision_sha": "e7c195e820380c001d5e87ee4c0eeb4b7484ba1d",
+    "frob_delta_norm": 10.5785,
     "frob_base_norm": 109.8192,
-    "logit_mean_cosine_sim": 0.999965,
-    "logit_min_cosine_sim": 0.999943,
+    "logit_mean_cosine_sim": 0.999964,
+    "logit_min_cosine_sim": 0.999949,
     "top1_token_agreement": "5/5",
     "standalone_exec_passed": "5/5",
     "standalone_exec_details": [
       {
         "task": "HumanEval/9_rolling_max",
         "passed": true,
-        "completion": "result = []\n    max_value = float(\"-inf\")\n    for num in numbers:\n        max_value = max(max_value, num)\n        result.append(max_value)\n    return result"
+        "completion": "result = []\n    max_num = float('-inf')\n    for num in numbers:\n        max_num = max(max_num, num)\n        result.append(max_num)\n    return result"
       },
       {
         "task": "HumanEval/2_truncate_number",
@@ -1449,18 +1541,18 @@
       {
         "task": "HumanEval/45_triangle_area",
         "passed": true,
-        "completion": "return a * h / 2.0"
+        "completion": "return a * h / 2"
       },
       {
         "task": "HumanEval/49_modp",
         "passed": true,
-        "completion": "result = 1\n    base = 2 % p\n    while n > 0:\n        if n % 2 == 1:\n            result = (result * base) % p\n        base = (base * base) % p\n        n = n // 2\n    return result"
+        "completion": "result = 1\n    base = 2 % p\n    while n > 0:\n        if n % 2 == 1:\n            result = (result * base) % p\n        base = (base * base) % p\n        n //= 2\n    return result"
       }
     ]
   },
   "leaderboard_pull_requests": {
-    "bigcode_models_leaderboard_pr": "https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard/discussions/105",
-    "bigcodebench_results_pr": "https://huggingface.co/datasets/bigcode/bigcodebench-results/discussions/3",
+    "bigcode_models_leaderboard_pr": "https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard/discussions/106",
+    "bigcodebench_results_pr": "https://huggingface.co/datasets/bigcode/bigcodebench-results/discussions/4",
     "open_llm_leaderboard_requests_pr": "https://huggingface.co/datasets/open-llm-leaderboard/requests/discussions/113"
   }
 }

@@ -27,6 +27,9 @@ def build_bundle(force: bool = True) -> str:
         ("hf_full_upstream_evalplus_runner.py", os.path.join(PIQWEN_DIR, "hf_full_upstream_evalplus_runner.py")),
         ("hf_heldout_code_math_runner.py", os.path.join(PIQWEN_DIR, "hf_heldout_code_math_runner.py")),
         ("hf_leaderboard_all3_pipeline.py", os.path.join(PIQWEN_DIR, "hf_leaderboard_all3_pipeline.py")),
+        ("polystep_v5_280x_trainer_cuda.py", os.path.join(PIQWEN_DIR, "polystep_v5_280x_trainer_cuda.py")),
+        ("qwen38_compact_72tasks_cache.npz", "/tmp/qwen38_compact_72tasks_cache.npz"),
+        ("docstring_transition_vecs.npz", "/tmp/docstring_transition_vecs.npz"),
         ("v4_active_6tensors.safetensors", "/tmp/v4_active_6tensors.safetensors"),
         ("leaderboard_all3_hf_results.json", os.path.join(PIQWEN_DIR, "leaderboard_all3_hf_results.json")),
         ("full_upstream_evalplus_hf_results.json", os.path.join(PIQWEN_DIR, "full_upstream_evalplus_hf_results.json")),
@@ -122,6 +125,7 @@ with tarfile.open(out_tar, "w:gz") as tar:
         "leaderboard_all3_hf_results.json",
         "LEADERBOARD_ALL3_REPORT.md",
         "submissions",
+        "checkpoints/Qwen3.8-27B-BarronPolyStep-RealCoder-v3/adapter_model.safetensors",
     ]:
         p = os.path.join(root, rel)
         if os.path.exists(p):
@@ -176,13 +180,23 @@ def main() -> None:
     token = hf.get_token()
     assert token, "HF token not found"
 
+    active_job_file = os.path.join(PIQWEN_DIR, "active_hf_leaderboard_all3_job.txt")
+    if os.path.exists(active_job_file):
+        try:
+            old_jid = open(active_job_file, encoding="utf-8").read().strip()
+            if old_jid:
+                api.cancel_job(job_id=old_jid)
+                print(f"[Cleanup] Canceled previous HF job {old_jid}", flush=True)
+        except Exception as e_can:
+            print(f"[Cleanup Note] {e_can}", flush=True)
+
     print(f"[Upload] Uploading {bundle_path} to {REPO_ID}...", flush=True)
     api.upload_file(
         path_or_fileobj=bundle_path,
         path_in_repo="piqwen_v4_patch.tar.gz",
         repo_id=REPO_ID,
         repo_type="model",
-        commit_message="Upload lightweight v4 multi-module patch for 3-Step Leaderboard A100-80GB execution",
+        commit_message="Upload lightweight v5 280x CUDA SVD patch for 3-Step Leaderboard A100-80GB execution",
     )
     print("[Upload] Bundle uploaded.", flush=True)
 
@@ -195,6 +209,10 @@ def main() -> None:
             "PIQWEN_BACKEND": "cuda",
             "PYTHONUNBUFFERED": "1",
             "MPLBACKEND": "Agg",
+            "OMP_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+            "MKL_NUM_THREADS": "1",
+            "NUMEXPR_NUM_THREADS": "1",
         },
         secrets={"HF_TOKEN": token},
     )
