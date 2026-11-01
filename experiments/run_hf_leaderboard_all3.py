@@ -28,6 +28,9 @@ def build_bundle(force: bool = True) -> str:
         ("hf_heldout_code_math_runner.py", os.path.join(PIQWEN_DIR, "hf_heldout_code_math_runner.py")),
         ("hf_leaderboard_all3_pipeline.py", os.path.join(PIQWEN_DIR, "hf_leaderboard_all3_pipeline.py")),
         ("v4_active_6tensors.safetensors", "/tmp/v4_active_6tensors.safetensors"),
+        ("leaderboard_all3_hf_results.json", os.path.join(PIQWEN_DIR, "leaderboard_all3_hf_results.json")),
+        ("full_upstream_evalplus_hf_results.json", os.path.join(PIQWEN_DIR, "full_upstream_evalplus_hf_results.json")),
+        ("submissions", os.path.join(PIQWEN_DIR, "submissions")),
         (
             "checkpoints/Qwen3.8-27B-BarronPolyStep-RealCoder-v3/adapter_config.json",
             os.path.join(
@@ -139,8 +142,10 @@ for repo in [
     for rel in [
         "leaderboard_all3_hf_results.json",
         "LEADERBOARD_ALL3_REPORT.md",
+        "submissions/humanevalplus_164_polystep_samples.jsonl",
         "submissions/mbppplus_378_polystep_samples.jsonl",
         "submissions/EVALPLUS_LEADERBOARD_SUBMISSION.md",
+        "submissions/ProbioticFarmer_Qwen3.8-27B-BarronPolyStep-RealCoder-v3_ProbioticFarmer.json",
         "submissions/ProbioticFarmer--Qwen3.8-27B-BarronPolyStep-RealCoder-v3--main--bigcodebench-hard-complete--custom-0-1-sanitized_calibrated.jsonl",
         "submissions/ProbioticFarmer--Qwen3.8-27B-BarronPolyStep-RealCoder-v3--main--bigcodebench-hard-complete--custom-0-1-sanitized_calibrated_eval_results.json",
     ]:

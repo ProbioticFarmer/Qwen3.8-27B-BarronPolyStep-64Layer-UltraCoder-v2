@@ -1,20 +1,20 @@
 {
-  "title": "3-Step Public Leaderboard Execution, Standalone 27B Merge Verification & Submission Pipeline",
+  "title": "Uncapped 3-Step Public Leaderboard Execution, Standalone 27B Merge Verification & Submission Pipeline",
   "hardware": {
     "platform": "Hugging Face Compute Jobs (a100-large)",
     "gpu_name": "NVIDIA A100-SXM4-80GB",
     "vram_total_gb": 79.25,
-    "elapsed_sec": 1242.65
+    "elapsed_sec": 2244.64
   },
   "step1_bigcodebench_hard_148": {
-    "dataset": "bigcode/bigcodebench-hard (official 148-task split)",
+    "dataset": "bigcode/bigcodebench-hard (official 148-task split, max_new_tokens=640)",
     "num_tasks": 148,
-    "base_passed": 32,
-    "base_pct": 21.62,
-    "polystep_passed": 35,
-    "polystep_pct": 23.65,
+    "base_passed": 40,
+    "base_pct": 27.03,
+    "polystep_passed": 43,
+    "polystep_pct": 29.05,
     "gain_pct": 2.03,
-    "juncture_branches_switched": 30,
+    "juncture_branches_switched": 33,
     "tasks": [
       {
         "task_id": "BigCodeBench/13",
@@ -23,7 +23,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 20.48
+        "elapsed_sec": 22.81,
+        "num_tokens": 236
       },
       {
         "task_id": "BigCodeBench/15",
@@ -31,8 +32,9 @@
         "base_passed": false,
         "polystep_passed": false,
         "switched_branch": true,
-        "selected_source": "polystep_juncture_t235",
-        "elapsed_sec": 28.26
+        "selected_source": "polystep_juncture_t38",
+        "elapsed_sec": 31.6,
+        "num_tokens": 245
       },
       {
         "task_id": "BigCodeBench/17",
@@ -77,16 +79,18 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 38.75
+        "elapsed_sec": 39.25,
+        "num_tokens": 288
       },
       {
         "task_id": "BigCodeBench/89",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 31.75
+        "base_passed": true,
+        "polystep_passed": true,
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t1",
+        "elapsed_sec": 36.75,
+        "num_tokens": 289
       },
       {
         "task_id": "BigCodeBench/92",
@@ -131,7 +135,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 19.45
+        "elapsed_sec": 20.35,
+        "num_tokens": 215
       },
       {
         "task_id": "BigCodeBench/108",
@@ -140,7 +145,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 18.85
+        "elapsed_sec": 26.49,
+        "num_tokens": 318
       },
       {
         "task_id": "BigCodeBench/120",
@@ -176,7 +182,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 16.2
+        "elapsed_sec": 20.59,
+        "num_tokens": 218
       },
       {
         "task_id": "BigCodeBench/139",
@@ -221,7 +228,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 35.8
+        "elapsed_sec": 21.85,
+        "num_tokens": 211
       },
       {
         "task_id": "BigCodeBench/184",
@@ -248,7 +256,8 @@
         "polystep_passed": false,
         "switched_branch": true,
         "selected_source": "polystep_juncture_t207",
-        "elapsed_sec": 26.74
+        "elapsed_sec": 20.34,
+        "num_tokens": 250
       },
       {
         "task_id": "BigCodeBench/208",
@@ -266,7 +275,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 14.8
+        "elapsed_sec": 17.1,
+        "num_tokens": 206
       },
       {
         "task_id": "BigCodeBench/214",
@@ -284,7 +294,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 22.8
+        "elapsed_sec": 22.3,
+        "num_tokens": 216
       },
       {
         "task_id": "BigCodeBench/239",
@@ -293,7 +304,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 17.4
+        "elapsed_sec": 18.3,
+        "num_tokens": 230
       },
       {
         "task_id": "BigCodeBench/241",
@@ -320,7 +332,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 33.1
+        "elapsed_sec": 24.65,
+        "num_tokens": 314
       },
       {
         "task_id": "BigCodeBench/274",
@@ -329,7 +342,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 29.98
+        "elapsed_sec": 25.0,
+        "num_tokens": 334
       },
       {
         "task_id": "BigCodeBench/287",
@@ -372,9 +386,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 36.85
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t1",
+        "elapsed_sec": 32.85,
+        "num_tokens": 166
       },
       {
         "task_id": "BigCodeBench/324",
@@ -417,9 +432,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 15.85
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t24",
+        "elapsed_sec": 28.69,
+        "num_tokens": 225
       },
       {
         "task_id": "BigCodeBench/367",
@@ -491,7 +507,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 31.85
+        "elapsed_sec": 60.89,
+        "num_tokens": 357
       },
       {
         "task_id": "BigCodeBench/424",
@@ -570,9 +587,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 17.6
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t31",
+        "elapsed_sec": 35.59,
+        "num_tokens": 303
       },
       {
         "task_id": "BigCodeBench/501",
@@ -606,9 +624,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t100",
-        "elapsed_sec": 29.75
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 19.89,
+        "num_tokens": 258
       },
       {
         "task_id": "BigCodeBench/511",
@@ -626,16 +645,18 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 17.45
+        "elapsed_sec": 27.45,
+        "num_tokens": 236
       },
       {
         "task_id": "BigCodeBench/526",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
+        "base_passed": true,
+        "polystep_passed": true,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 17.05
+        "elapsed_sec": 34.65,
+        "num_tokens": 264
       },
       {
         "task_id": "BigCodeBench/528",
@@ -696,9 +717,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t71",
-        "elapsed_sec": 26.65
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 11.19,
+        "num_tokens": 145
       },
       {
         "task_id": "BigCodeBench/579",
@@ -752,7 +774,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 16.65
+        "elapsed_sec": 15.99,
+        "num_tokens": 227
       },
       {
         "task_id": "BigCodeBench/593",
@@ -761,7 +784,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 20.6
+        "elapsed_sec": 28.45,
+        "num_tokens": 209
       },
       {
         "task_id": "BigCodeBench/594",
@@ -770,7 +794,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 16.3
+        "elapsed_sec": 25.2,
+        "num_tokens": 221
       },
       {
         "task_id": "BigCodeBench/618",
@@ -793,11 +818,12 @@
       {
         "task_id": "BigCodeBench/637",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
+        "base_passed": true,
+        "polystep_passed": true,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 37.4
+        "elapsed_sec": 19.75,
+        "num_tokens": 257
       },
       {
         "task_id": "BigCodeBench/654",
@@ -806,7 +832,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 23.5
+        "elapsed_sec": 27.85,
+        "num_tokens": 246
       },
       {
         "task_id": "BigCodeBench/655",
@@ -829,11 +856,12 @@
       {
         "task_id": "BigCodeBench/678",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
+        "base_passed": true,
+        "polystep_passed": true,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 32.14
+        "elapsed_sec": 22.54,
+        "num_tokens": 309
       },
       {
         "task_id": "BigCodeBench/720",
@@ -860,7 +888,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 18.15
+        "elapsed_sec": 24.3,
+        "num_tokens": 223
       },
       {
         "task_id": "BigCodeBench/760",
@@ -869,7 +898,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 17.9
+        "elapsed_sec": 29.25,
+        "num_tokens": 231
       },
       {
         "task_id": "BigCodeBench/763",
@@ -878,7 +908,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 16.35
+        "elapsed_sec": 15.8,
+        "num_tokens": 222
       },
       {
         "task_id": "BigCodeBench/765",
@@ -941,7 +972,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 46.85
+        "elapsed_sec": 39.29,
+        "num_tokens": 242
       },
       {
         "task_id": "BigCodeBench/854",
@@ -1056,9 +1088,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 18.95
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t85",
+        "elapsed_sec": 36.89,
+        "num_tokens": 226
       },
       {
         "task_id": "BigCodeBench/945",
@@ -1067,7 +1100,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 16.65
+        "elapsed_sec": 23.45,
+        "num_tokens": 206
       },
       {
         "task_id": "BigCodeBench/952",
@@ -1103,7 +1137,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 36.45
+        "elapsed_sec": 37.74,
+        "num_tokens": 323
       },
       {
         "task_id": "BigCodeBench/969",
@@ -1128,27 +1163,30 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t236",
-        "elapsed_sec": 22.15
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 27.95,
+        "num_tokens": 242
       },
       {
         "task_id": "BigCodeBench/988",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
+        "base_passed": true,
+        "polystep_passed": true,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 17.75
+        "elapsed_sec": 56.9,
+        "num_tokens": 407
       },
       {
         "task_id": "BigCodeBench/990",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 17.6
+        "base_passed": true,
+        "polystep_passed": true,
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t1",
+        "elapsed_sec": 56.2,
+        "num_tokens": 256
       },
       {
         "task_id": "BigCodeBench/998",
@@ -1157,7 +1195,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 16.31
+        "elapsed_sec": 25.05,
+        "num_tokens": 216
       },
       {
         "task_id": "BigCodeBench/999",
@@ -1175,7 +1214,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 19.95
+        "elapsed_sec": 32.35,
+        "num_tokens": 206
       },
       {
         "task_id": "BigCodeBench/1004",
@@ -1189,11 +1229,12 @@
       {
         "task_id": "BigCodeBench/1006",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
-        "switched_branch": true,
-        "selected_source": "polystep_juncture_t55",
-        "elapsed_sec": 40.55
+        "base_passed": true,
+        "polystep_passed": true,
+        "switched_branch": false,
+        "selected_source": "base_greedy",
+        "elapsed_sec": 47.0,
+        "num_tokens": 284
       },
       {
         "task_id": "BigCodeBench/1008",
@@ -1209,9 +1250,10 @@
         "entry_point": "task_func",
         "base_passed": false,
         "polystep_passed": false,
-        "switched_branch": false,
-        "selected_source": "base_greedy",
-        "elapsed_sec": 18.85
+        "switched_branch": true,
+        "selected_source": "polystep_juncture_t5",
+        "elapsed_sec": 33.4,
+        "num_tokens": 192
       },
       {
         "task_id": "BigCodeBench/1013",
@@ -1229,7 +1271,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 21.15
+        "elapsed_sec": 19.1,
+        "num_tokens": 230
       },
       {
         "task_id": "BigCodeBench/1019",
@@ -1265,7 +1308,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 17.6
+        "elapsed_sec": 22.94,
+        "num_tokens": 236
       },
       {
         "task_id": "BigCodeBench/1040",
@@ -1274,7 +1318,8 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 45.44
+        "elapsed_sec": 48.21,
+        "num_tokens": 571
       },
       {
         "task_id": "BigCodeBench/1042",
@@ -1283,16 +1328,18 @@
         "polystep_passed": false,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 25.51
+        "elapsed_sec": 32.79,
+        "num_tokens": 139
       },
       {
         "task_id": "BigCodeBench/1053",
         "entry_point": "task_func",
-        "base_passed": false,
-        "polystep_passed": false,
+        "base_passed": true,
+        "polystep_passed": true,
         "switched_branch": false,
         "selected_source": "base_greedy",
-        "elapsed_sec": 32.99
+        "elapsed_sec": 34.65,
+        "num_tokens": 358
       },
       {
         "task_id": "BigCodeBench/1057",
@@ -1352,25 +1399,25 @@
   },
   "step2_evalplus_full_164_378": {
     "humaneval_num_tasks": 164,
-    "base_humaneval_passed": 109,
-    "base_humaneval_pct": 66.46,
-    "humaneval_passed": 117,
-    "humaneval_pct": 71.34,
-    "base_humaneval_plus_passed": 109,
-    "base_humaneval_plus_pct": 66.46,
-    "humaneval_plus_passed": 117,
-    "humaneval_plus_pct": 71.34,
+    "base_humaneval_passed": 125,
+    "base_humaneval_pct": 76.22,
+    "humaneval_passed": 127,
+    "humaneval_pct": 77.44,
+    "base_humaneval_plus_passed": 112,
+    "base_humaneval_plus_pct": 68.29,
+    "humaneval_plus_passed": 120,
+    "humaneval_plus_pct": 73.17,
     "mbpp_num_tasks": 378,
-    "base_mbpp_passed": 274,
-    "base_mbpp_pct": 72.49,
-    "mbpp_passed": 278,
-    "mbpp_pct": 73.54,
-    "base_mbpp_plus_passed": 226,
-    "base_mbpp_plus_pct": 59.79,
-    "mbpp_plus_passed": 229,
-    "mbpp_plus_pct": 60.58,
-    "mbpp_gain_pct": 1.06,
-    "mbpp_plus_gain_pct": 0.79
+    "base_mbpp_passed": 278,
+    "base_mbpp_pct": 73.54,
+    "mbpp_passed": 283,
+    "mbpp_pct": 74.87,
+    "base_mbpp_plus_passed": 230,
+    "base_mbpp_plus_pct": 60.85,
+    "mbpp_plus_passed": 234,
+    "mbpp_plus_pct": 61.9,
+    "mbpp_gain_pct": 1.32,
+    "mbpp_plus_gain_pct": 1.06
   },
   "step3_standalone_27b_merge_verification": {
     "merge_functional_verified": true,
@@ -1412,8 +1459,8 @@
     ]
   },
   "leaderboard_pull_requests": {
-    "bigcode_models_leaderboard_pr": "https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard/discussions/104",
-    "bigcodebench_results_pr": "https://huggingface.co/datasets/bigcode/bigcodebench-results/discussions/2",
+    "bigcode_models_leaderboard_pr": "https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard/discussions/105",
+    "bigcodebench_results_pr": "https://huggingface.co/datasets/bigcode/bigcodebench-results/discussions/3",
     "open_llm_leaderboard_requests_pr": "https://huggingface.co/datasets/open-llm-leaderboard/requests/discussions/113"
   }
 }

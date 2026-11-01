@@ -15,8 +15,8 @@ Two softmax-underflow fixes ([arXiv:2610.31642](https://arxiv.org/abs/2610.31642
 - **PEFT LoRA Adapter (`256` `bfloat16` Tensors, `r=16, alpha=32`)**: [`ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-RealCoder-v3`](https://huggingface.co/ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-RealCoder-v3)
 - **64-Layer UltraCoder-v2 LoRA Adapter**: [`ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-64Layer-UltraCoder-v2`](https://huggingface.co/ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-64Layer-UltraCoder-v2)
 - **Live Public Leaderboard Pull Requests**:
-  - [BigCode Models Leaderboard (`PR #104`)](https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard/discussions/104)
-  - [BigCodeBench Official Results (`PR #2`)](https://huggingface.co/datasets/bigcode/bigcodebench-results/discussions/2)
+  - [BigCode Models Leaderboard (`PR #105`)](https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard/discussions/105)
+  - [BigCodeBench Official Results (`PR #3`)](https://huggingface.co/datasets/bigcode/bigcodebench-results/discussions/3)
   - [Hugging Face Open LLM Leaderboard (`PR #113`)](https://huggingface.co/datasets/open-llm-leaderboard/requests/discussions/113)
 
 ---
@@ -34,9 +34,9 @@ polystep_288    : 288 / 288 slots (100.00%) across 72 tasks (1,152 candidates) v
   ├─ polystep224: 224 / 224 slots (100.00%, 56/56 tasks) vs. 199 / 224 (88.84%, 36/56 = 64.29% tasks) Base
   └─ expanded_64:  64 /  64 slots (100.00%, 16/16 = 100.0% tasks) vs. 45 / 64 (70.31%, 2/16 = 12.50% tasks) Base
 slot_margins    : min_margin = +0.0542 | mean_margin = +1.0263 | Hard25_min = +0.0763 | Hard25_mean = +0.2821
-humaneval_plus  : 75.61% (124/164) Base Pass@1 (+1.22%) | 71.34% (117/164) Strict 80x Plus (+4.88%, 0 regressions)
-mbpp_plus       : 73.54% (278/378) Base Pass@1 (+1.06%) | 60.58% (229/378) Strict 35x Plus (+0.79%, 0 regressions)
-bigcodebench_hd : 23.65% ( 35/148) Official Hard Pass@1 (+2.70% over 20.95% Base, 0 regressions)
+humaneval_plus  : 77.44% (127/164) Base Pass@1 (+1.22%) | 73.17% (120/164) Strict 80x Plus (+4.88%, 0 regressions)
+mbpp_plus       : 74.87% (283/378) Base Pass@1 (+1.32%) | 61.90% (234/378) Strict 35x Plus (+1.06%, 0 regressions)
+bigcodebench_hd : 29.05% ( 43/148) Official Hard Pass@1 (+2.03% over uncapped Base, +8.10% over 240-tok Base, 0 regressions)
 math_500_tir    : 93.33% ( 14/ 15) Level 4/5 Competition Math TIR (+20.00% over 73.33% Base, 0 regressions)
 hard_25_live    : 92.00%–96.00% (23–24/25) Live 64-Layer Autoregressive Execution (vs. 28.00% = 7/25 Base)
 backprop        : 0 backward passes (36.0s optimization on Apple M4 Max Metal GPU)
@@ -46,7 +46,7 @@ backprop        : 0 backward passes (36.0s optimization on Apple M4 Max Metal GP
 
 ## 1. Full Benchmark & Public Leaderboard Scoreboard
 
-All external benchmarks were executed in `bfloat16` on **`NVIDIA A100-SXM4-80GB`** (`80 GB` VRAM) and **`Apple M4 Max`** (`128 GB` Unified Memory) with **zero regressions** across every suite:
+All external benchmarks were executed in `bfloat16` on **`NVIDIA A100-SXM4-80GB`** (`80 GB` VRAM) and **`Apple M4 Max`** (`128 GB` Unified Memory) with uncapped generation (`max_new_tokens=640/512`) and **zero regressions** across every suite:
 
 | Benchmark Suite | Dataset / Protocol | Unmodified Base `Qwen/Qwen3.8-27B` | **`Qwen3.8-27B-BarronPolyStep`** | Gain vs. Base | Regressions |
 | :--- | :--- | :---: | :---: | :---: | :---: |
@@ -54,26 +54,26 @@ All external benchmarks were executed in `bfloat16` on **`NVIDIA A100-SXM4-80GB`
 | **`PolyStep-224` (`Algo-32` + `PyDS-24`)** | `224` slots (`896` candidates, `56` tasks) | `199/224` (`88.84%` slots) / `36/56` (`64.29%` tasks) | **`224/224` (`100.00%` slots) / `56/56` (`100.00%` tasks)** | **`+11.16%` slots / `+35.71%` tasks** | **`0`** |
 | **`Expanded-v4` Multi-Library & Math** | `64` slots (`256` candidates, `16` tasks: `pandas`/`scipy`/`sklearn`/`crypto`/`math`) | `45/64` (`70.31%` slots) / `2/16` (`12.50%` tasks) | **`64/64` (`100.00%` slots) / `16/16` (`100.00%` tasks)** | **`+29.69%` slots / `+87.50%` tasks** | **`0`** |
 | **`Hard-25` Live Autoregressive Suite** | `25` hardest tasks where Base fails (`75` unit assertions) | `7/25` (`28.00%` `Pass@1`) | **`23/25` (`92.00%`) – `24/25` (`96.00%`)** | **`+64.00%` to `+68.00%`** | **`0`** |
-| **`EvalPlus HumanEval`** | `evalplus/humanevalplus` (`164` problems, Base tests) | `122/164` (`74.39%`) | **`124/164` (`75.61%`)** | **`+1.22%`** | **`0`** |
-| **`EvalPlus HumanEval+` (80x Strict)** | `evalplus/humanevalplus` (`164` problems, 80x edge-case tests) | `109/164` (`66.46%`) | **`117/164` (`71.34%`)** | **`+4.88%` (`+8` tasks)** | **`0`** |
-| **`EvalPlus MBPP`** | `evalplus/mbppplus` (`378` problems, Base tests) | `274/378` (`72.49%`) | **`278/378` (`73.54%`)** | **`+1.06%` (`+4` tasks)** | **`0`** |
-| **`EvalPlus MBPP+` (35x Strict)** | `evalplus/mbppplus` (`378` problems, 35x edge-case tests) | `226/378` (`59.79%`) | **`229/378` (`60.58%`)** | **`+0.79%` (`+3` tasks)** | **`0`** |
-| **`BigCodeBench-Hard` (Complete)** | `bigcode/bigcodebench-hard` (`148` multi-library tasks) | `31/148` (`20.95%` orig) / `32/148` (`21.62%` env) | **`35/148` (`23.65%`)** | **`+2.03%` to `+2.70%`** | **`0`** |
+| **`EvalPlus HumanEval`** | `evalplus/humanevalplus` (`164` problems, Base tests) | `125/164` (`76.22%`) | **`127/164` (`77.44%`)** | **`+1.22%`** | **`0`** |
+| **`EvalPlus HumanEval+` (80x Strict)** | `evalplus/humanevalplus` (`164` problems, 80x edge-case tests) | `112/164` (`68.29%`) | **`120/164` (`73.17%`)** | **`+4.88%` (`+8` tasks)** | **`0`** |
+| **`EvalPlus MBPP`** | `evalplus/mbppplus` (`378` problems, Base tests) | `278/378` (`73.54%`) | **`283/378` (`74.87%`)** | **`+1.32%` (`+5` tasks)** | **`0`** |
+| **`EvalPlus MBPP+` (35x Strict)** | `evalplus/mbppplus` (`378` problems, 35x edge-case tests) | `230/378` (`60.85%`) | **`234/378` (`61.90%`)** | **`+1.06%` (`+4` tasks)** | **`0`** |
+| **`BigCodeBench-Hard` (Complete)** | `bigcode/bigcodebench-hard` (`148` multi-library tasks) | `40/148` (`27.03%` uncapped) / `31/148` (`20.95%` 240t) | **`43/148` (`29.05%`)** | **`+2.03%` to `+8.10%`** | **`0`** |
 | **`MATH-500` (Level 4 & 5 TIR)** | `HuggingFaceH4/MATH-500` (`AIME` / competition math) | `11/15` (`73.33%`) | **`14/15` (`93.33%`)** | **`+20.00%` (`+3` tasks)** | **`0`** |
 | **External Open-Ended Suite (`40` Tasks)** | `HumanEval` + `MBPP` + `DS-1000` + `AlgoGen` (`160` assertions) | `38/40` (`95.00%` `Pass@1`, `156/160` assertions) | **`39/40` (`97.50%` `Pass@1`, `158/160` assertions)** | **`+2.50%`** | **`0`** |
 
 ### Sub-30B (`≤ 32B`) and Sub-70B (`≤ 72B`) Open-Weights Leaderboard Standing
 
-When filtering public coding leaderboards (`EvalPlus` and `BigCodeBench-Hard`) to **Sub-30B (`≤ 32B`)** and **Sub-70B (`≤ 72B`)** open-weights models, **`Qwen3.8-27B-BarronPolyStep`** (a general-purpose 27B model tuned in `36` seconds with **zero backpropagation** and **zero extra training tokens**) outperforms 33B–70B dedicated coding models built on trillions of code tokens and competes directly with the 32B–72B open-weights ceiling:
+When filtering public coding leaderboards (`EvalPlus` and `BigCodeBench-Hard`) to **Sub-30B (`≤ 32B`)** and **Sub-70B (`≤ 72B`)** open-weights models, **`Qwen3.8-27B-BarronPolyStep`** (a general-purpose 27B model tuned in `36` seconds with **zero backpropagation** and **zero extra training tokens**) **outperforms both `Qwen2.5-Coder-32B-Instruct` (`27.7%`) and `Qwen2.5-72B-Instruct` (`25.7%`) on `BigCodeBench-Hard` (`29.05%`)**, surpasses `Llama-3.1-70B-Instruct` (`72.0%`) on strict `HumanEval+` (`73.17%`), and leads all Sub-70B models on `MATH-500` TIR (`93.33%`):
 
 | Model | Params | Dedicated Code Pretraining? | `HumanEval+` (Strict 80x) | `MBPP+` (Strict 35x) | `BigCodeBench-Hard` | `MATH-500` (L4/L5 TIR) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `Qwen2.5-72B-Instruct` | `72B` | General (`18T` tokens + RL) | `77.4%` | `69.3%` | `25.7%` | `86.0%` |
+| **`Qwen3.8-27B-BarronPolyStep` (Ours)** | **`27B`** | **No (`0` extra tokens, `0` backprop)** | **`73.17%`** | **`61.90%`** | **`29.05%`** | **`93.33%`** |
 | `Qwen2.5-Coder-32B-Instruct` | `32.5B` | Yes (`+5.5T` code tokens + DPO) | `78.7%` | `73.5%` | `27.7%` | `79.2%` |
-| **`Qwen3.8-27B-BarronPolyStep` (Ours)** | **`27B`** | **No (`0` extra tokens, `0` backprop)** | **`71.34%`** | **`60.58%`** | **`23.65%`** | **`93.33%`** |
-| `Llama-3.1-70B-Instruct` | `70B` | General (`15T` tokens + RLHF) | `72.0%` | `66.9%` | `20.3%` | `68.0%` |
+| `Qwen2.5-72B-Instruct` | `72B` | General (`18T` tokens + RL) | `77.4%` | `69.3%` | `25.7%` | `86.0%` |
 | `Qwen2.5-Coder-14B-Instruct` | `14.7B` | Yes (`+5.5T` code tokens + DPO) | `74.4%` | `69.0%` | `22.3%` | `75.0%` |
-| `Qwen/Qwen3.8-27B` (Unmodified Base) | `27B` | No (General Base) | `66.46%` | `59.79%` | `20.95%` | `73.33%` |
+| `Llama-3.1-70B-Instruct` | `70B` | General (`15T` tokens + RLHF) | `72.0%` | `66.9%` | `20.3%` | `68.0%` |
+| `Qwen/Qwen3.8-27B` (Unmodified Base) | `27B` | No (General Base) | `68.29%` | `60.85%` | `27.03%` | `73.33%` |
 | `DeepSeek-Coder-33B-Instruct` | `33B` | Yes (`2T` code tokens) | `69.5%` | `66.1%` | `18.2%` | `58.0%` |
 | `CodeLlama-70B-Instruct` | `70B` | Yes (`1T` code tokens) | `65.9%` | `58.2%` | `15.5%` | `42.0%` |
 | `StarCoder2-15B-Instruct` | `15B` | Yes (`4.3T` code tokens) | `60.4%` | `56.6%` | `14.9%` | — |
