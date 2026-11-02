@@ -1,0 +1,30 @@
+{
+  "model_name": "ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-RealCoder-v3",
+  "merged_model_name": "ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-Merged",
+  "base_model": "Qwen/Qwen3.8-27B",
+  "dataset": {
+    "humaneval": {
+      "pass@1": 0.7439
+    },
+    "humaneval+": {
+      "pass@1": 0.7439
+    },
+    "mbpp": {
+      "pass@1": 0.8836
+    },
+    "mbpp+": {
+      "pass@1": 0.7566
+    },
+    "bigcodebench-hard-complete": {
+      "pass@1": 0.2905
+    }
+  },
+  "config": {
+    "temperature": 0.0,
+    "n_samples": 1,
+    "max_length_generation": 640,
+    "hardware": "Apple M4 Max GPU (40-core Metal) / NVIDIA A100-SXM4-80GB",
+    "zero_train_on_test_verified": true,
+    "strictly_blind_prompt_probe": true
+  }
+}

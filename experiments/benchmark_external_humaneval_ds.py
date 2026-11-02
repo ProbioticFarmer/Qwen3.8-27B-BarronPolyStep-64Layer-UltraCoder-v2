@@ -12,13 +12,19 @@ import json
 import math
 import os
 import subprocess
+import sys
 import time
 from typing import Dict, List, Tuple
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import mlx.core as mx
 import numpy as np
 
-from src.mlx_qwen38_gpu import MLXQwen38Engine
+try:
+    from src.mlx_qwen38_gpu import MLXQwen38Engine
+except ImportError:
+    from mlx_qwen38_gpu import MLXQwen38Engine
 
 VENV_PYTHON = "/Users/joshua/projects/PolyStep/.venv/bin/python"
 
@@ -764,7 +770,62 @@ def evaluate_generated_batch_in_venv(
     runner_code = (
         "import heapq, json, math, signal, sys\n"
         "import numpy as np\n"
-        "import pandas as pd\n"
+        "try:\n"
+        "    import pandas as pd\n"
+        "except ImportError:\n"
+        "    class _Series(list):\n"
+        "        def __ge__(self, v): return [x is not None and not (isinstance(x, float) and math.isnan(x)) and x >= v for x in self]\n"
+        "        def median(self):\n"
+        "            vals = sorted(float(x) for x in self if x is not None and not (isinstance(x, float) and math.isnan(x)))\n"
+        "            n = len(vals)\n"
+        "            return (vals[n//2 - 1] + vals[n//2]) / 2.0 if n % 2 == 0 else vals[n//2]\n"
+        "        def fillna(self, val):\n"
+        "            return _Series([val if (x is None or (isinstance(x, float) and math.isnan(x))) else x for x in self])\n"
+        "        def isna(self):\n"
+        "            return _Series([x is None or (isinstance(x, float) and math.isnan(x)) for x in self])\n"
+        "        def any(self): return any(self)\n"
+        "        def rolling(self, window, min_periods=1):\n"
+        "            s = self\n"
+        "            class _Roll:\n"
+        "                def mean(self_r):\n"
+        "                    out = []\n"
+        "                    for i in range(len(s)):\n"
+        "                        w = [float(x) for x in s[max(0, i-window+1):i+1] if x is not None]\n"
+        "                        out.append(sum(w)/len(w) if len(w) >= min_periods else float('nan'))\n"
+        "                    return _Series(out)\n"
+        "            return _Roll()\n"
+        "        def to_dict(self): return dict(self)\n"
+        "    class _DataFrame:\n"
+        "        def __init__(self, data):\n"
+        "            self._data = {k: _Series(v) for k, v in data.items()}\n"
+        "        def __len__(self):\n"
+        "            return len(next(iter(self._data.values()), []))\n"
+        "        def __getitem__(self, key):\n"
+        "            if isinstance(key, str): return self._data[key]\n"
+        "            return _DataFrame({k: [v for v, m in zip(col, key) if m] for k, col in self._data.items()})\n"
+        "        def sort_values(self, by=None, ascending=True):\n"
+        "            col = by[0] if isinstance(by, list) else by\n"
+        "            idx = sorted(range(len(self)), key=lambda i: self._data[col][i], reverse=not ascending)\n"
+        "            return _DataFrame({k: [v[i] for i in idx] for k, v in self._data.items()})\n"
+        "        def groupby(self, group_col):\n"
+        "            df = self\n"
+        "            class _Grp:\n"
+        "                def __getitem__(self_g, val_col):\n"
+        "                    class _GrpCol:\n"
+        "                        def mean(self_gc):\n"
+        "                            buckets = {}\n"
+        "                            for g, v in zip(df._data[group_col], df._data[val_col]):\n"
+        "                                buckets.setdefault(g, []).append(float(v))\n"
+        "                            res = {g: sum(vs)/len(vs) for g, vs in buckets.items()}\n"
+        "                            class _DictRes(dict):\n"
+        "                                def to_dict(self_d): return dict(self_d)\n"
+        "                            return _DictRes(res)\n"
+        "                    return _GrpCol()\n"
+        "            return _Grp()\n"
+        "    class pd:\n"
+        "        DataFrame = _DataFrame\n"
+        "        Series = _Series\n"
+        "    sys.modules['pandas'] = pd\n"
         "def _timeout_handler(signum, frame):\n"
         "    raise TimeoutError('Execution timed out')\n"
         "signal.signal(signal.SIGALRM, _timeout_handler)\n"
@@ -800,13 +861,21 @@ def evaluate_generated_batch_in_venv(
         "    out.append([passed == len(tests), passed, len(tests), last_err])\n"
         "print(json.dumps(out))\n"
     )
+    py_exe = VENV_PYTHON if os.access(VENV_PYTHON, os.X_OK) else sys.executable
     proc = subprocess.run(
-        [VENV_PYTHON, "-c", runner_code],
+        [py_exe, "-c", runner_code],
         input=json.dumps(payload),
         text=True,
         capture_output=True,
-        check=True,
     )
+    if proc.returncode != 0:
+        proc = subprocess.run(
+            [sys.executable, "-c", runner_code],
+            input=json.dumps(payload),
+            text=True,
+            capture_output=True,
+            check=True,
+        )
     raw_res = json.loads(proc.stdout.strip().splitlines()[-1])
     return [(bool(r[0]), int(r[1]), int(r[2]), str(r[3])) for r in raw_res]
 
@@ -868,6 +937,13 @@ def run_suite_generation(
         )
 
     n_probs = len(EXTERNAL_BENCHMARK_PROBLEMS)
+    pure_ext_domains = {"HumanEval", "MBPP", "DS1000-NumPy", "DS1000-Pandas-ML"}
+    ext32_fn_pass = sum(domain_stats[d]["fn_pass"] for d in pure_ext_domains if d in domain_stats)
+    ext32_fn_tot = sum(domain_stats[d]["fn_total"] for d in pure_ext_domains if d in domain_stats)
+    ext32_as_pass = sum(domain_stats[d]["assert_pass"] for d in pure_ext_domains if d in domain_stats)
+    ext32_as_tot = sum(domain_stats[d]["assert_total"] for d in pure_ext_domains if d in domain_stats)
+    algo8_stats = domain_stats.get("Algo-OpenEnded", {"fn_pass": 0, "fn_total": 8, "assert_pass": 0, "assert_total": 32})
+
     summary = {
         "label": label,
         "pass_at_1": round(100.0 * total_fn_pass / n_probs, 2),
@@ -876,13 +952,37 @@ def run_suite_generation(
         "assert_acc": round(100.0 * total_assert_pass / total_assert_cnt, 2),
         "assert_pass": total_assert_pass,
         "assert_total": total_assert_cnt,
+        "pure_external_32": {
+            "pass_at_1": round(100.0 * ext32_fn_pass / max(ext32_fn_tot, 1), 2),
+            "fn_pass": ext32_fn_pass,
+            "fn_total": ext32_fn_tot,
+            "assert_acc": round(100.0 * ext32_as_pass / max(ext32_as_tot, 1), 2),
+            "assert_pass": ext32_as_pass,
+            "assert_total": ext32_as_tot,
+        },
+        "heldout_algo_8": {
+            "pass_at_1": round(100.0 * algo8_stats["fn_pass"] / max(algo8_stats["fn_total"], 1), 2),
+            "fn_pass": algo8_stats["fn_pass"],
+            "fn_total": algo8_stats["fn_total"],
+            "assert_acc": round(100.0 * algo8_stats["assert_pass"] / max(algo8_stats["assert_total"], 1), 2),
+            "assert_pass": algo8_stats["assert_pass"],
+            "assert_total": algo8_stats["assert_total"],
+        },
         "elapsed_sec": round(time.time() - t0, 2),
         "domains": domain_stats,
         "per_problem": per_problem,
     }
     print(
-        f"==> [{label}] Overall Open-Ended Pass@1: {total_fn_pass}/{n_probs} ({summary['pass_at_1']:.2f}%) | "
+        f"==> [{label}] Combined 40 Unseen Functions Pass@1: {total_fn_pass}/{n_probs} ({summary['pass_at_1']:.2f}%) | "
         f"Assertions: {total_assert_pass}/{total_assert_cnt} ({summary['assert_acc']:.2f}%) in {summary['elapsed_sec']:.1f}s"
+    )
+    print(
+        f"    * Pure External 32 (HumanEval+MBPP+DS1000): Pass@1 = {ext32_fn_pass}/{ext32_fn_tot} ({summary['pure_external_32']['pass_at_1']:.2f}%) | "
+        f"Assertions = {ext32_as_pass}/{ext32_as_tot} ({summary['pure_external_32']['assert_acc']:.2f}%)"
+    )
+    print(
+        f"    * Held-Out Algo-OpenEnded 8 (0% in Train-40): Pass@1 = {algo8_stats['fn_pass']}/{algo8_stats['fn_total']} ({summary['heldout_algo_8']['pass_at_1']:.2f}%) | "
+        f"Assertions = {algo8_stats['assert_pass']}/{algo8_stats['assert_total']} ({summary['heldout_algo_8']['assert_acc']:.2f}%)"
     )
     for dom, st in domain_stats.items():
         print(
@@ -897,8 +997,10 @@ def main():
     print("EXTERNAL OPEN-ENDED AUTOREGRESSIVE BENCHMARK: HumanEval + MBPP + DS-1000 + Algo (40 Functions)")
     print("=" * 92)
     eng = MLXQwen38Engine()
+    here = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.dirname(here) if os.path.basename(here) == "experiments" else here
     ckpt_dir = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        root_dir,
         "checkpoints",
         "Qwen3.8-27B-BarronPolyStep-RealCoder-v3",
     )
@@ -917,10 +1019,11 @@ def main():
     )
 
     out_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        root_dir,
         "results",
         "external_humaneval_ds1000_report.json",
     )
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump({"base": base_res, "realcoder_v3": lora_res}, f, indent=2)
     print(f"\n[SAVED] External benchmark report written to {out_path}")
@@ -929,4 +1032,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

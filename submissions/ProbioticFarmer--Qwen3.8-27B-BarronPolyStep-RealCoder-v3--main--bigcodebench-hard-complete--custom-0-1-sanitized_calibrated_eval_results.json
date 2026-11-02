@@ -1,0 +1,1048 @@
+{
+  "date": "2026-11-01",
+  "model": "ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-RealCoder-v3",
+  "subset": "hard",
+  "split": "complete",
+  "pass@1": {
+    "complete": 29.05,
+    "base_complete": 27.7
+  },
+  "eval": {
+    "BigCodeBench/13": [
+      {
+        "task_id": "BigCodeBench/13",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/15": [
+      {
+        "task_id": "BigCodeBench/15",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/17": [
+      {
+        "task_id": "BigCodeBench/17",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/19": [
+      {
+        "task_id": "BigCodeBench/19",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/34": [
+      {
+        "task_id": "BigCodeBench/34",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/37": [
+      {
+        "task_id": "BigCodeBench/37",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/82": [
+      {
+        "task_id": "BigCodeBench/82",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/89": [
+      {
+        "task_id": "BigCodeBench/89",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/92": [
+      {
+        "task_id": "BigCodeBench/92",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/93": [
+      {
+        "task_id": "BigCodeBench/93",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/99": [
+      {
+        "task_id": "BigCodeBench/99",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/100": [
+      {
+        "task_id": "BigCodeBench/100",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/101": [
+      {
+        "task_id": "BigCodeBench/101",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/108": [
+      {
+        "task_id": "BigCodeBench/108",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/120": [
+      {
+        "task_id": "BigCodeBench/120",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/123": [
+      {
+        "task_id": "BigCodeBench/123",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/124": [
+      {
+        "task_id": "BigCodeBench/124",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/129": [
+      {
+        "task_id": "BigCodeBench/129",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/139": [
+      {
+        "task_id": "BigCodeBench/139",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/147": [
+      {
+        "task_id": "BigCodeBench/147",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/161": [
+      {
+        "task_id": "BigCodeBench/161",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/162": [
+      {
+        "task_id": "BigCodeBench/162",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/177": [
+      {
+        "task_id": "BigCodeBench/177",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/184": [
+      {
+        "task_id": "BigCodeBench/184",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/187": [
+      {
+        "task_id": "BigCodeBench/187",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/199": [
+      {
+        "task_id": "BigCodeBench/199",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/208": [
+      {
+        "task_id": "BigCodeBench/208",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/211": [
+      {
+        "task_id": "BigCodeBench/211",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/214": [
+      {
+        "task_id": "BigCodeBench/214",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/227": [
+      {
+        "task_id": "BigCodeBench/227",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/239": [
+      {
+        "task_id": "BigCodeBench/239",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/241": [
+      {
+        "task_id": "BigCodeBench/241",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/267": [
+      {
+        "task_id": "BigCodeBench/267",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/273": [
+      {
+        "task_id": "BigCodeBench/273",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/274": [
+      {
+        "task_id": "BigCodeBench/274",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/287": [
+      {
+        "task_id": "BigCodeBench/287",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/302": [
+      {
+        "task_id": "BigCodeBench/302",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/308": [
+      {
+        "task_id": "BigCodeBench/308",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/310": [
+      {
+        "task_id": "BigCodeBench/310",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/313": [
+      {
+        "task_id": "BigCodeBench/313",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/324": [
+      {
+        "task_id": "BigCodeBench/324",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/326": [
+      {
+        "task_id": "BigCodeBench/326",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/341": [
+      {
+        "task_id": "BigCodeBench/341",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/346": [
+      {
+        "task_id": "BigCodeBench/346",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/360": [
+      {
+        "task_id": "BigCodeBench/360",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/367": [
+      {
+        "task_id": "BigCodeBench/367",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/368": [
+      {
+        "task_id": "BigCodeBench/368",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/374": [
+      {
+        "task_id": "BigCodeBench/374",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/399": [
+      {
+        "task_id": "BigCodeBench/399",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/401": [
+      {
+        "task_id": "BigCodeBench/401",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/409": [
+      {
+        "task_id": "BigCodeBench/409",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/417": [
+      {
+        "task_id": "BigCodeBench/417",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/418": [
+      {
+        "task_id": "BigCodeBench/418",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/424": [
+      {
+        "task_id": "BigCodeBench/424",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/443": [
+      {
+        "task_id": "BigCodeBench/443",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/445": [
+      {
+        "task_id": "BigCodeBench/445",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/454": [
+      {
+        "task_id": "BigCodeBench/454",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/458": [
+      {
+        "task_id": "BigCodeBench/458",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/461": [
+      {
+        "task_id": "BigCodeBench/461",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/477": [
+      {
+        "task_id": "BigCodeBench/477",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/486": [
+      {
+        "task_id": "BigCodeBench/486",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/492": [
+      {
+        "task_id": "BigCodeBench/492",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/501": [
+      {
+        "task_id": "BigCodeBench/501",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/502": [
+      {
+        "task_id": "BigCodeBench/502",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/503": [
+      {
+        "task_id": "BigCodeBench/503",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/509": [
+      {
+        "task_id": "BigCodeBench/509",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/511": [
+      {
+        "task_id": "BigCodeBench/511",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/513": [
+      {
+        "task_id": "BigCodeBench/513",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/526": [
+      {
+        "task_id": "BigCodeBench/526",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/528": [
+      {
+        "task_id": "BigCodeBench/528",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/530": [
+      {
+        "task_id": "BigCodeBench/530",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/532": [
+      {
+        "task_id": "BigCodeBench/532",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/553": [
+      {
+        "task_id": "BigCodeBench/553",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/560": [
+      {
+        "task_id": "BigCodeBench/560",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/567": [
+      {
+        "task_id": "BigCodeBench/567",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/574": [
+      {
+        "task_id": "BigCodeBench/574",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/579": [
+      {
+        "task_id": "BigCodeBench/579",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/582": [
+      {
+        "task_id": "BigCodeBench/582",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/583": [
+      {
+        "task_id": "BigCodeBench/583",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/587": [
+      {
+        "task_id": "BigCodeBench/587",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/590": [
+      {
+        "task_id": "BigCodeBench/590",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/592": [
+      {
+        "task_id": "BigCodeBench/592",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/593": [
+      {
+        "task_id": "BigCodeBench/593",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/594": [
+      {
+        "task_id": "BigCodeBench/594",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/618": [
+      {
+        "task_id": "BigCodeBench/618",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/636": [
+      {
+        "task_id": "BigCodeBench/636",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/637": [
+      {
+        "task_id": "BigCodeBench/637",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/654": [
+      {
+        "task_id": "BigCodeBench/654",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/655": [
+      {
+        "task_id": "BigCodeBench/655",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/657": [
+      {
+        "task_id": "BigCodeBench/657",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/678": [
+      {
+        "task_id": "BigCodeBench/678",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/720": [
+      {
+        "task_id": "BigCodeBench/720",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/723": [
+      {
+        "task_id": "BigCodeBench/723",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/752": [
+      {
+        "task_id": "BigCodeBench/752",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/760": [
+      {
+        "task_id": "BigCodeBench/760",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/763": [
+      {
+        "task_id": "BigCodeBench/763",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/765": [
+      {
+        "task_id": "BigCodeBench/765",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/771": [
+      {
+        "task_id": "BigCodeBench/771",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/777": [
+      {
+        "task_id": "BigCodeBench/777",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/785": [
+      {
+        "task_id": "BigCodeBench/785",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/800": [
+      {
+        "task_id": "BigCodeBench/800",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/826": [
+      {
+        "task_id": "BigCodeBench/826",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/845": [
+      {
+        "task_id": "BigCodeBench/845",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/854": [
+      {
+        "task_id": "BigCodeBench/854",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/857": [
+      {
+        "task_id": "BigCodeBench/857",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/865": [
+      {
+        "task_id": "BigCodeBench/865",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/870": [
+      {
+        "task_id": "BigCodeBench/870",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/879": [
+      {
+        "task_id": "BigCodeBench/879",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/897": [
+      {
+        "task_id": "BigCodeBench/897",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/906": [
+      {
+        "task_id": "BigCodeBench/906",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/914": [
+      {
+        "task_id": "BigCodeBench/914",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/915": [
+      {
+        "task_id": "BigCodeBench/915",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/916": [
+      {
+        "task_id": "BigCodeBench/916",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/917": [
+      {
+        "task_id": "BigCodeBench/917",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/928": [
+      {
+        "task_id": "BigCodeBench/928",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/942": [
+      {
+        "task_id": "BigCodeBench/942",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/945": [
+      {
+        "task_id": "BigCodeBench/945",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/952": [
+      {
+        "task_id": "BigCodeBench/952",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/955": [
+      {
+        "task_id": "BigCodeBench/955",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/963": [
+      {
+        "task_id": "BigCodeBench/963",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/964": [
+      {
+        "task_id": "BigCodeBench/964",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/969": [
+      {
+        "task_id": "BigCodeBench/969",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/971": [
+      {
+        "task_id": "BigCodeBench/971",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/985": [
+      {
+        "task_id": "BigCodeBench/985",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/988": [
+      {
+        "task_id": "BigCodeBench/988",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/990": [
+      {
+        "task_id": "BigCodeBench/990",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/998": [
+      {
+        "task_id": "BigCodeBench/998",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/999": [
+      {
+        "task_id": "BigCodeBench/999",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1003": [
+      {
+        "task_id": "BigCodeBench/1003",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1004": [
+      {
+        "task_id": "BigCodeBench/1004",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1006": [
+      {
+        "task_id": "BigCodeBench/1006",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1008": [
+      {
+        "task_id": "BigCodeBench/1008",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1012": [
+      {
+        "task_id": "BigCodeBench/1012",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1013": [
+      {
+        "task_id": "BigCodeBench/1013",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1015": [
+      {
+        "task_id": "BigCodeBench/1015",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1019": [
+      {
+        "task_id": "BigCodeBench/1019",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1020": [
+      {
+        "task_id": "BigCodeBench/1020",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1022": [
+      {
+        "task_id": "BigCodeBench/1022",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1039": [
+      {
+        "task_id": "BigCodeBench/1039",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1040": [
+      {
+        "task_id": "BigCodeBench/1040",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1042": [
+      {
+        "task_id": "BigCodeBench/1042",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1053": [
+      {
+        "task_id": "BigCodeBench/1053",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1057": [
+      {
+        "task_id": "BigCodeBench/1057",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1077": [
+      {
+        "task_id": "BigCodeBench/1077",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1085": [
+      {
+        "task_id": "BigCodeBench/1085",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1124": [
+      {
+        "task_id": "BigCodeBench/1124",
+        "passed": true,
+        "result": "passed"
+      }
+    ],
+    "BigCodeBench/1129": [
+      {
+        "task_id": "BigCodeBench/1129",
+        "passed": false,
+        "result": "failed"
+      }
+    ],
+    "BigCodeBench/1137": [
+      {
+        "task_id": "BigCodeBench/1137",
+        "passed": true,
+        "result": "passed"
+      }
+    ]
+  }
+}

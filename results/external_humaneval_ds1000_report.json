@@ -7,7 +7,23 @@
     "assert_acc": 97.5,
     "assert_pass": 156,
     "assert_total": 160,
-    "elapsed_sec": 63.25,
+    "pure_external_32": {
+      "pass_at_1": 96.88,
+      "fn_pass": 31,
+      "fn_total": 32,
+      "assert_acc": 98.44,
+      "assert_pass": 126,
+      "assert_total": 128
+    },
+    "heldout_algo_8": {
+      "pass_at_1": 87.5,
+      "fn_pass": 7,
+      "fn_total": 8,
+      "assert_acc": 93.75,
+      "assert_pass": 30,
+      "assert_total": 32
+    },
+    "elapsed_sec": 183.33,
     "domains": {
       "HumanEval": {
         "fn_pass": 7,
@@ -451,7 +467,23 @@
     "assert_acc": 98.75,
     "assert_pass": 158,
     "assert_total": 160,
-    "elapsed_sec": 66.51,
+    "pure_external_32": {
+      "pass_at_1": 96.88,
+      "fn_pass": 31,
+      "fn_total": 32,
+      "assert_acc": 98.44,
+      "assert_pass": 126,
+      "assert_total": 128
+    },
+    "heldout_algo_8": {
+      "pass_at_1": 100.0,
+      "fn_pass": 8,
+      "fn_total": 8,
+      "assert_acc": 100.0,
+      "assert_pass": 32,
+      "assert_total": 32
+    },
+    "elapsed_sec": 159.15,
     "domains": {
       "HumanEval": {
         "fn_pass": 7,
@@ -493,7 +525,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    for idx, num in enumerate(numbers):\n        for num2 in numbers:\n            if idx != numbers.index(num2) and abs(num - num2) < threshold:\n                return True\n    return False\n\n\n"
+        "generated_body": "    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n\n\n"
       },
       {
         "id": "HumanEval/3",
@@ -513,7 +545,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    mean = sum(numbers) / len(numbers)\n    abs_deviations = [abs(x - mean) for x in numbers]\n    return sum(abs_deviations) / len(numbers)\n\n\n"
+        "generated_body": "    mean = sum(numbers) / len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n\n\n"
       },
       {
         "id": "HumanEval/20",
@@ -523,7 +555,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    numbers.sort()\n    min_diff = float('inf')\n    closest_pair = (numbers[0], numbers[1])\n    for i in range(len(numbers) - 1):\n        diff = abs(numbers[i] - numbers[i + 1])\n        if diff < min_diff:\n            min_diff = diff\n            closest_pair = (numbers[i], numbers[i + 1])\n    return closest_pair# This is a sample Python script.\n\n"
+        "generated_body": "    numbers.sort()\n    closest = (numbers[0], numbers[1])\n    for i in range(1, len(numbers) - 1):\n        if numbers[i + 1] - numbers[i] < closest[1] - closest[0]:\n            closest = (numbers[i], numbers[i + 1])\n    return closest\n\n\n"
       },
       {
         "id": "HumanEval/26",
@@ -553,7 +585,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    for i in range(len(l)):\n        for j in range(i + 1, len(l)):\n            if l[i] + l[j] == 0:\n                return True\n    return False# -*- coding: utf-8 -*-\n"
+        "generated_body": "    for i in range(len(l)):\n        for j in range(i + 1, len(l)):\n            if l[i] + l[j] == 0:\n                return True\n    return False# This is a Python function that checks if there are two distinct elements in a list that sum to zero.\n"
       },
       {
         "id": "HumanEval/60",
@@ -573,7 +605,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    for char in second_string:\n        string = string.replace(char, '')\n    return string\n\n"
+        "generated_body": "    return ''.join([char for char in string if char not in second_string])\n\n"
       },
       {
         "id": "MBPP/106",
@@ -623,7 +655,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    for item in list1:\n        if item in list2:\n            return True\n    return False\n\n"
+        "generated_body": "    for i in list1:\n        if i in list2:\n            return True\n    return False\n\n"
       },
       {
         "id": "MBPP/456",
@@ -653,7 +685,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    min_val = np.min(x)\n    max_val = np.max(x)\n    return (x - min_val) / (max_val - min_val)\n\n"
+        "generated_body": "    return (x - x.min()) / (x.max() - x.min())\n\n"
       },
       {
         "id": "DS1000-NP/2",
@@ -673,7 +705,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    dot_product = np.dot(a, b)\n    norm_a = np.linalg.norm(a)\n    norm_b = np.linalg.norm(b)\n    if norm_a == 0 or norm_b == 0:\n        return 0.0\n    return float(dot_product / (norm_a * norm_b))\n\n"
+        "generated_body": "    dot_product = np.dot(a, b)\n    norm_a = np.linalg.norm(a)\n    norm_b = np.linalg.norm(b)\n    return dot_product / (norm_a * norm_b)\n\n"
       },
       {
         "id": "DS1000-NP/4",
@@ -683,7 +715,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    x = np.array(x, copy=True)\n    nan_mask = np.isnan(x)\n    if np.any(nan_mask):\n        x[nan_mask] = np.nanmean(x)\n    return x\n\n"
+        "generated_body": "    return np.nan_to_num(x, nan=np.nanmean(x))\n\n"
       },
       {
         "id": "DS1000-NP/5",
@@ -693,7 +725,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    return float(np.linalg.norm(a - b))\n\n"
+        "generated_body": "    return np.linalg.norm(a - b)\n\n"
       },
       {
         "id": "DS1000-NP/6",
@@ -703,7 +735,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    one_hot = np.zeros((len(labels), num_classes))\n    one_hot[np.arange(len(labels)), labels] = 1\n    return one_hot\n\n"
+        "generated_body": "    one_hot = np.zeros((len(labels), num_classes), dtype=int)\n    one_hot[np.arange(len(labels)), labels] = 1\n    return one_hot\n\n"
       },
       {
         "id": "DS1000-NP/7",
@@ -713,7 +745,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    # Create a window of ones with length w\n    window = np.ones(w) / w\n    # Use 'valid' mode to only compute where the window fully overlaps\n    return np.convolve(x, window, mode='valid')\n\n"
+        "generated_body": "    kernel = np.ones(w) / w\n    return np.convolve(x, kernel, mode='valid')\n\n"
       },
       {
         "id": "DS1000-NP/8",
@@ -723,7 +755,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    norms = np.linalg.norm(X, axis=1, keepdims=True)\n    return X / (norms + 1e-12)  # Add small epsilon to avoid division by zero\n\n"
+        "generated_body": "    norms = np.linalg.norm(X, axis=1, keepdims=True)\n    norms[norms == 0] = 1  # Avoid division by zero\n    return X / norms\n\n"
       },
       {
         "id": "DS1000-PD/1",
@@ -733,7 +765,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    return (\n        df[df[col] >= min_val]\n        .sort_values(by=col, ascending=False)\n        .reset_index(drop=True)\n    )\n\n"
+        "generated_body": "    filtered = df[df[col] >= min_val]\n    return filtered.sort_values(by=col, ascending=False)\n\n"
       },
       {
         "id": "DS1000-PD/2",
@@ -783,7 +815,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    ss_res = np.sum((y_true - y_pred) ** 2)\n    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)\n    return 1 - (ss_res / ss_tot)\n\n"
+        "generated_body": "    ss_res = np.sum((y_true - y_pred) ** 2)\n    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)\n    return 1 - ss_res / ss_tot\n\n"
       },
       {
         "id": "DS1000-ML/7",
@@ -793,7 +825,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    y_pred = (y_prob >= threshold).astype(int)\n    return np.mean(y_pred == y_true)\n\n"
+        "generated_body": "    y_pred = np.where(y_prob >= threshold, 1, 0)\n    return np.mean(y_pred == y_true)\n\n"
       },
       {
         "id": "DS1000-ML/8",
@@ -813,7 +845,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "0 <= min(out) and max(out) <= 255\n    return out\n\n"
+        "generated_body": "0 <= out[0] <= 15\n    assert 0 <= out[1] <= 15\n    assert 0 <= out[2] <= 15\n    assert 0 <= out[3] <= 15\n    return out\n\n"
       },
       {
         "id": "AlgoGen/13",
@@ -833,7 +865,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "0 <= x < m1 * m2\n            return x\n    return 'No solution'\n\n"
+        "generated_body": "0 <= x < m1 * m2\n            return x\n    return -1\n\n"
       },
       {
         "id": "AlgoGen/18",
@@ -863,7 +895,7 @@
         "assertions_passed": 4,
         "assertions_total": 4,
         "error": "",
-        "generated_body": "    max_sum = float(\"-inf\")\n    current_sum = 0\n    for num in nums:\n        current_sum = max(num, current_sum + num)\n        max_sum = max(max_sum, current_sum)\n    return max_sum\n\n"
+        "generated_body": "    max_sum = nums[0]\n    current_sum = nums[0]\n    for num in nums[1:]:\n        current_sum = max(num, current_sum + num)\n        max_sum = max(max_sum, current_sum)\n    return max_sum\n\n\n"
       },
       {
         "id": "AlgoGen/27",
