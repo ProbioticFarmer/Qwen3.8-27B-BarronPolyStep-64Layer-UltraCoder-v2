@@ -1,13 +1,13 @@
 {
   "model": "ProbioticFarmer/Qwen3.8-27B-BarronPolyStep-Merged",
   "base_model": "Qwen/Qwen3.8-27B",
-  "revision": "3cf486b14c881873523c5635d7bf3950c7d33a29",
+  "revision": "82fd9a747120fad7623dfb383f85229b5b657a16",
   "precision": "bfloat16",
   "params": 27.0,
   "architectures": "Qwen3_5ForConditionalGeneration",
   "weight_type": "Original",
   "status": "PENDING",
-  "submitted_time": "2026-11-01T14:31:36Z",
+  "submitted_time": "2026-11-02T05:41:48Z",
   "model_type": "fine-tuned",
   "use_chat_template": false,
   "sender": "ProbioticFarmer"
