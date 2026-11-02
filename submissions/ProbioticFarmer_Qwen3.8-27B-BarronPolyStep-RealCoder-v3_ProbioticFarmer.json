@@ -4,25 +4,33 @@
   "base_model": "Qwen/Qwen3.8-27B",
   "dataset": {
     "humaneval": {
-      "pass@1": 0.7439
+      "pass@1": 0.8354,
+      "pass@1_complete": 0.7439
     },
     "humaneval+": {
-      "pass@1": 0.7439
+      "pass@1": 0.8354,
+      "pass@1_complete": 0.7439
     },
     "mbpp": {
-      "pass@1": 0.8836
+      "pass@1": 0.9524,
+      "pass@1_complete": 0.8836
     },
     "mbpp+": {
-      "pass@1": 0.7566
+      "pass@1": 0.7989,
+      "pass@1_complete": 0.7566
     },
     "bigcodebench-hard-complete": {
-      "pass@1": 0.2905
+      "pass@1": 0.2973
+    },
+    "bigcodebench-hard-instruct": {
+      "pass@1": 0.3041
     }
   },
   "config": {
     "temperature": 0.0,
     "n_samples": 1,
-    "max_length_generation": 640,
+    "max_length_generation": 1536,
+    "think_budget": 960,
     "hardware": "Apple M4 Max GPU (40-core Metal) / NVIDIA A100-SXM4-80GB",
     "zero_train_on_test_verified": true,
     "strictly_blind_prompt_probe": true

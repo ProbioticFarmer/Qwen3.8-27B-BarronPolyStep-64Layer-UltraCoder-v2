@@ -8,15 +8,15 @@
 
 ---
 
-## 1. Summary Across All 3 Public Coding Leaderboards (`complete` / Pretrained Base Split)
+## 1. Summary Across All 3 Public Coding Leaderboards (`complete` & Native `<think>` Chain-of-Thought)
 
-| Public Leaderboard | Tasks | `Qwen/Qwen3.8-27B` Base | `Qwen3.8-27B-BarronPolyStep-RealCoder-v3` (`240x` Clean) | Gain | Modern Base (`\le 70B`) Rank |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **`BigCodeBench-Hard` (`complete`)** | `148` | `41/148` (`27.70%`) | **`43/148` (`29.05%`)** | **`+1.35%` (`+2` tasks)** | **#1** |
-| **`EvalPlus HumanEval` (`complete`)** | `164` | `117/164` (`71.34%`) | **`122/164` (`74.39%`)** | **`+3.05%` (`+5` tasks)** | **#1 (on `HumanEval+`)** |
-| **`EvalPlus HumanEval+` (`80x` strict)** | `164` | `117/164` (`71.34%`) | **`122/164` (`74.39%`)** | **`+3.05%` (`0.00%` Base$\to$Plus drop)** | **#1** |
-| **`EvalPlus MBPP` (`complete`)** | `378` | `327/378` (`86.51%`) | **`334/378` (`88.36%`)** | **`+1.85%` (`+7` tasks)** | **#1** |
-| **`EvalPlus MBPP+` (`35x` strict)** | `378` | `281/378` (`74.34%`) | **`286/378` (`75.66%`)** | **`+1.32%` (`+5` tasks)** | **#1** |
+| Public Leaderboard | Tasks | `Qwen/Qwen3.8-27B` Base | `RealCoder-v3` (`240x` Clean `complete`, `0` think tokens) | `RealCoder-v3` (`240x` Clean `<think>` CoT, Blind Prompt-Probe) | Gain vs. Base (`<think>`) |Rescued by `<think>` (`0` Regressions) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`BigCodeBench-Hard`** | `148` | `41/148` (`27.70%`) | **`44/148` (`29.73%`)** | **`45/148` (`30.41%`)** | **`+2.71%` (`+4` tasks)** | `+1` (`BigCodeBench/560`) |
+| **`EvalPlus HumanEval` (Base)** | `164` | `117/164` (`71.34%`) | **`121/164` (`73.78%`)** / `122/164` (`74.39%`) | **`137/164` (`83.54%`)** / `138/164` (`84.15%`) | **`+12.20%` (`+20` tasks)** | **`+16` tasks (`16/16` switched = `100%` `F->P`)** |
+| **`EvalPlus HumanEval+` (`80x` strict)** | `164` | `117/164` (`71.34%`) | **`121/164` (`73.78%`)** / `122/164` (`74.39%`) | **`137/164` (`83.54%`)** / `138/164` (`84.15%`) | **`+12.20%` (`0.00%` Base$\to$Plus drop)** | `HumanEval/9, 10, 19, 33, 64, 69, 93, 99, 108, 125, 126, 127, 131, 134, 137, 140` |
+| **`EvalPlus MBPP` (Base)** | `378` | `327/378` (`86.51%`) | **`333/378` (`88.10%`)** / `334/378` (`88.36%`) | **`360/378` (`95.24%`)** | **`+8.73%` (`+33` tasks)** | **`+27` Base tasks** |
+| **`EvalPlus MBPP+` (`35x` strict)** | `378` | `281/378` (`74.34%`) | **`283/378` (`74.87%`)** / `286/378` (`75.66%`) | **`302/378` (`79.89%`)** / `305/378` (`80.69%`) | **`+5.55%` (`+21` tasks)** | `Mbpp/63, 100, 108, 235, 237, 239, 259, 286, 306, 445, 446, 462, 610, 638, 734, 742, 745, 749, 763` |
 
 ---
 

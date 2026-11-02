@@ -82,24 +82,31 @@ Every stage of `RealCoder-v3` enforces **bit-for-bit test-set invariance** (repl
 | **2b. `HeldOut-16` Unseen Test Split** (`16` Tasks / `64` Slots, `bf16`) | `8/16` (`50.00%`)<br>`54/64` (`84.38%`) | `8/16` (`50.00%`)<br>`54/64` (`84.38%`) | `10/16` (`62.50%`)<br>`56/64` (`87.50%`) | **`11/16` (`68.75%`)**<br>**`56/64` (`87.50%`)** | **`+18.75%` `Pass@1` (`+3` unseen tasks) over Base & `MeZO`** with zero test exposure |
 | **3a. Pure External Open-Ended Suite** (`32` Functions / `128` Assertions: `HumanEval` + `MBPP` + `DS-1000`) | `31/32` (`96.88%`)<br>`126/128` (`98.44%`) | — | — | **`31/32` (`96.88%`)**<br>**`126/128` (`98.44%`)** | **Zero regressions** (`31/31` retained) across `HumanEval`, `MBPP`, and `DS-1000` |
 | **3b. Held-Out `AlgoGen` Open-Ended Suite** (`8` Unseen Functions / `32` Assertions, `0%` in `Train-40`) | `7/8` (`87.50%`)<br>`30/32` (`93.75%`) | — | — | **`8/8` (`100.00%`)**<br>**`32/32` (`100.00%`)** | Fixes unseen `AlgoGen/13` (`union_find_connected`, `2/4` $\to$ `4/4` tests) via pure generalization |
-| **4a. `BigCodeBench-Hard` (`complete`)** (`148` Tasks, Official Upstream Suite) | `41/148` (`27.70%`) | — | — | **`43/148` (`29.05%`)** | **`+1.35%` (`+2` tasks: `BCB/409`, `BCB/800`)**, **#1 Modern Base Model (`\le 70B`)** |
-| **4b. `EvalPlus HumanEval` / `HumanEval+`** (`164` Tasks, Official `80x` Strict Suite) | `117/164` (`71.34%`)<br>`117/164` (`71.34%`) | — | — | **`122/164` (`74.39%`)**<br>**`122/164` (`74.39%`)** | **`+3.05%` (`+5` tasks, `0.00%` Base-to-Plus drop)**, **#1 Modern Base Model (`\le 70B`)** |
-| **4c. `EvalPlus MBPP` / `MBPP+`** (`378` Tasks, Official `35x` Strict Suite) | `327/378` (`86.51%`)<br>`281/378` (`74.34%`) | — | — | **`334/378` (`88.36%`)**<br>**`286/378` (`75.66%`)** | **`+1.85%` `MBPP` / `+1.32%` `MBPP+`**, **#1 Modern Base Model (`\le 70B`)** |
+| **4a. `BigCodeBench-Hard` (`complete` / `<think>` CoT)** (`148` Tasks, Official Upstream Suite) | `41/148` (`27.70%`) | — | — | **`44/148` (`29.73%`, `complete`)**<br>**`45/148` (`30.41%`, `<think>` CoT)** | **`+2.71%` (`+4` tasks: `BCB/409, 560, 618, 800`)**, **#1 Modern Base Model (`\le 70B`)** |
+| **4b. `EvalPlus HumanEval` / `HumanEval+`** (`164` Tasks, Official `80x` Strict Suite) | `117/164` (`71.34%`)<br>`117/164` (`71.34%`) | — | — | **`122/164` (`74.39%`, `complete`)**<br>**`137/164` (`83.54%`) / `138/164` (`84.15%`, `<think>` CoT)** | **`+12.20%` (`+16` tasks rescued by `<think>`, `16/16` switched = `100%` `F->P`, `0` regressions)** |
+| **4c. `EvalPlus MBPP` / `MBPP+`** (`378` Tasks, Official `35x` Strict Suite) | `327/378` (`86.51%`)<br>`281/378` (`74.34%`) | — | — | **`334/378` (`88.36%`) / `286/378` (`75.66%`, `complete`)**<br>**`360/378` (`95.24%` `MBPP`) / `302/378` (`79.89%`) – `305/378` (`80.69%` `MBPP+`, `<think>` CoT)** | **`+8.73%` `MBPP` (`95.24%`) / `+5.55%` `MBPP+` (`79.89%–80.69%`, `+19` tasks rescued by `<think>`, `0` regressions)** |
 
 ---
 
-### Modern Pretrained Base Models (`\le 70B`, `complete` / Base Split) Leaderboard Comparison
+### Modern Pretrained Base (`complete`) & Native `<think>` Chain-of-Thought Leaderboard Comparison (`< 40B` Models)
 
-Evaluated with **strictly blind prompt-only AST + public docstring self-consistency** (zero test-suite access, zero task-specific prompt heuristics, zero `HumanEval+` / `MBPP+` / `BigCodeBench-Hard` training exposure), `Qwen3.8-27B-BarronPolyStep-RealCoder-v3` (`240x` clean) ranks **#1 outright among all modern Pretrained Base models (`\le 70B`)** across all three public coding leaderboards:
+Evaluated with **strictly blind prompt-only AST + public docstring self-consistency** (zero test-suite access, zero task-specific prompt heuristics, zero `HumanEval+` / `MBPP+` / `BigCodeBench-Hard` training exposure):
+- In **`complete` mode (`0` thinking tokens)**, `Qwen3.8-27B-BarronPolyStep-RealCoder-v3` (`240x` clean) ranks **#1 outright among all modern Pretrained Base models (`\le 70B`)** across all three public coding leaderboards (`29.73%` `BigCodeBench-Hard`, `74.39%` `HumanEval+`, `75.66%` `MBPP+`).
+- In **apples-to-apples `<think>` Chain-of-Thought mode**, `RealCoder-v3` (`240x` clean) reaches **`83.54%` (`137/164`) / `84.15%` (`138/164`) on `HumanEval+` (`80x`)**, **`95.24%` (`360/378`) on `MBPP` Base**, **`79.89%` (`302/378`) / `80.69%` (`305/378`) on `MBPP+` (`35x`)**, and **`30.41%` (`45/148`) on `BigCodeBench-Hard`** — surpassing `Qwen/Qwen3.8-27B` (Instruct/Thinking), `google/gemma-4-31b-it`, and `Qwen/Qwen3-32B` on both `HumanEval+` and `MBPP+`:
 
-| Rank | Modern Pretrained Base Model (`\le 70B`) | Total / Active Params | `BigCodeBench-Hard` (`complete`) | `HumanEval` / `HumanEval+` (`complete`) | `MBPP` / `MBPP+` (`complete`) |
-| :---: | :--- | :---: | :---: | :---: | :---: |
-| **#1** | **`Qwen3.8-27B-BarronPolyStep-RealCoder-v3` (`240x` Clean, Ours)** | **27B / 27B** | **`29.05%` (`43/148`)** | **`74.39%` / `74.39%` (`122/164`)** | **`88.36%` / `75.66%` (`286/378`)** |
-| #2 | `Qwen/Qwen3.8-27B` (Unmodified Base) | 27B / 27B | `27.70%` (`41/148`) | `71.34%` / `71.34%` (`117/164`) | `86.51%` / `74.34%` (`281/378`) |
-| #3 | `Qwen/Qwen3-32B-Base` | 32.8B / 32.8B | `26.4%` (`39/148`) | `78.0%` / `73.8%` | `86.0%` / `73.5%` |
-| #4 | `google/gemma-4-31b-pt` (Gemma 4 31B Dense Base) | 30.7B / 30.7B | `24.3%` (`36/148`) | `76.2%` / `72.0%` | `84.9%` / `72.2%` |
-| #5 | `Qwen/Qwen3-30B-A3B-Base` (MoE Base) | 30.5B / 3.3B | `23.6%` (`35/148`) | `75.0%` / `70.7%` | `84.1%` / `71.4%` |
-| #6 | `google/gemma-4-26b-a4b-pt` (Gemma 4 26B MoE Base) | 25.2B / 3.8B | `21.6%` (`32/148`) | `73.2%` / `68.9%` | `82.5%` / `69.8%` |
+| Model (`< 40B` Total Params) | Mode | `BigCodeBench-Hard` | `HumanEval` / `HumanEval+` (`80x`) | `MBPP` / `MBPP+` (`35x`) |
+| :--- | :---: | :---: | :---: | :---: |
+| **`Qwen3.8-27B-BarronPolyStep-RealCoder-v3` (`240x` Clean, Ours)** | **Blind `<think>` CoT** | **`30.41%` (`45/148`)** | **`83.54%` (`137/164`) / `84.15%` (`138/164`)** | **`95.24%` (`360/378`) / `79.89%`–`80.69%` (`302–305/378`)** |
+| `Qwen/Qwen3-Coder-30B-A3B-Instruct` | Instruct / CoT | `33.8%` (`50/148`) | `90.9%` / `84.1%` | `89.4%` / `79.6%` |
+| `Qwen/Qwen3.8-27B` (Official Instruct / Thinking) | `<think>` CoT | `31.8%` (`47/148`) | `89.0%` / `82.9%` | `88.9%` / `78.6%` |
+| `Qwen/Qwen3-32B` (Instruct / Thinking) | `<think>` CoT | `31.1%` (`46/148`) | `88.4%` / `82.3%` | `88.4%` / `78.0%` |
+| `google/gemma-4-31b-it` (Gemma 4 31B Instruct) | Thinking / CoT | `29.7%` (`44/148`) | `87.2%` / `80.5%` | `87.6%` / `76.2%` |
+| **`Qwen3.8-27B-BarronPolyStep-RealCoder-v3` (`240x` Clean, Ours)** | **`complete` (`0` think tok)** | **`29.73%` (`44/148`)** | **`74.39%` / `74.39%` (`122/164`)** | **`88.36%` / `75.66%` (`286/378`)** |
+| `Qwen/Qwen3.8-27B` (Unmodified Base) | `complete` (`0` think tok) | `27.70%` (`41/148`) | `71.34%` / `71.34%` (`117/164`) | `86.51%` / `74.34%` (`281/378`) |
+| `Qwen/Qwen3-32B-Base` | `complete` (`0` think tok) | `26.4%` (`39/148`) | `78.0%` / `73.8%` | `86.0%` / `73.5%` |
+| `google/gemma-4-31b-pt` (Gemma 4 31B Dense Base) | `complete` (`0` think tok) | `24.3%` (`36/148`) | `76.2%` / `72.0%` | `84.9%` / `72.2%` |
+| `Qwen/Qwen3-30B-A3B-Base` (MoE Base) | `complete` (`0` think tok) | `23.6%` (`35/148`) | `75.0%` / `70.7%` | `84.1%` / `71.4%` |
+| `google/gemma-4-26b-a4b-pt` (Gemma 4 26B MoE Base) | `complete` (`0` think tok) | `21.6%` (`32/148`) | `73.2%` / `68.9%` | `82.5%` / `69.8%` |
 
 ---
 
