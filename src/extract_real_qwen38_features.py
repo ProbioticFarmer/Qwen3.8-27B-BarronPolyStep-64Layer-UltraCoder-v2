@@ -2,20 +2,38 @@
 across all 56 coding tasks (`32` Algorithm tasks + `24` Python/Data Science tasks = `224` slots = `896` candidates)
 on Apple M4 Max Metal GPU.
 
-Zero synthetic tokens, zero target leakage, zero truncated layers.
+Enforces strict train-only PCA/SVD basis extraction (Zero Transductive Leakage):
+- `u_act63_train40`, `u_gated63_train40`, `u_y62_train40`, and `layer_down_a` / `layer_attn_a` are computed
+  strictly from the 40 Training Tasks (`160` slots), with zero positions from the 16 Held-Out Test Tasks (`64` slots).
+- `u_act63_even` / `u_act63_odd` (and `gated63`, `y62`) are computed strictly from Even / Odd tasks respectively
+  for 2-Fold Out-of-Sample Cross-Validation.
 """
 
 from __future__ import annotations
 
 import os
+import sys
 import time
 from typing import Dict, List, Tuple
 
 import mlx.core as mx
 import numpy as np
 
-from src.coding_tasks import PYTHON_DS_BENCHMARK_SPECS, ULTRA_32_SPECS
-from src.mlx_qwen38_gpu import MLXQwen38Engine
+# Support running from either PolyStep root or PiQwen root
+try:
+    from src.coding_tasks import PYTHON_DS_BENCHMARK_SPECS, ULTRA_32_SPECS
+    from src.mlx_qwen38_gpu import MLXQwen38Engine
+except ImportError:
+    from coding_tasks import PYTHON_DS_BENCHMARK_SPECS, ULTRA_32_SPECS
+    from mlx_qwen38_gpu import MLXQwen38Engine
+
+# Canonical 40-Train / 16-Held-Out Test Split (8 Algo + 8 PyDS held out)
+HELD_OUT_TEST_TASKS = sorted(
+    [2, 5, 7, 12, 13, 18, 27, 29] + [32 + i for i in [2, 5, 8, 11, 14, 17, 20, 23]]
+)
+TRAIN_40_TASKS = [t for t in range(56) if t not in set(HELD_OUT_TEST_TASKS)]
+HELDOUT_16_TASK_INDICES = HELD_OUT_TEST_TASKS
+TRAIN_40_TASK_INDICES = TRAIN_40_TASKS
 
 
 def get_slot_prefix_and_options(spec: dict, k: int) -> Tuple[str, List[str]]:
@@ -46,9 +64,29 @@ def get_slot_prefix_and_options(spec: dict, k: int) -> Tuple[str, List[str]]:
     return prefix, opts
 
 
+def top_right_singular_train_only(
+    mat_all: np.ndarray,
+    train_mask: np.ndarray,
+    k: int,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Compute top-k right singular vectors strictly on `mat_all[train_mask]`, then project `mat_all`."""
+    mat_tr = mat_all[train_mask]
+    gram = mat_tr @ mat_tr.T
+    eigvals, eigvecs = np.linalg.eigh(gram)
+    idx = np.argsort(eigvals)[::-1][:k]
+    s_inv = 1.0 / np.sqrt(np.maximum(eigvals[idx], 1e-8))
+    vt = (eigvecs[:, idx] * s_inv[None, :]).T @ mat_tr  # [k, D]
+    vt = vt / np.maximum(np.linalg.norm(vt, axis=-1, keepdims=True), 1e-8)
+    proj_all = mat_all @ vt.T  # [N_pos, k]
+    return vt.astype(np.float32), proj_all.astype(np.float32)
+
+
 def main():
     t_start = time.time()
-    eng = MLXQwen38Engine()
+    try:
+        eng = MLXQwen38Engine(subspace_gguf_path=None)
+    except TypeError:
+        eng = MLXQwen38Engine()
     tok = eng.tokenizer
 
     all_specs = []
@@ -86,12 +124,10 @@ def main():
                 "c_targets": c_targets,
             })
 
-    # Sort slots by prefix length to minimize left-padding waste across 4 batches of B=56
     sorted_order = sorted(range(len(slot_records)), key=lambda idx: len(slot_records[idx]["pref_ids"]))
     batch_size = 56
     num_slots = len(slot_records)
 
-    # Storage per original slot_idx
     slot_outputs: Dict[int, dict] = {}
     w_lm = eng.weights["lm_head.weight"]
 
@@ -122,11 +158,8 @@ def main():
             flush=True,
         )
 
-        # Extract per-slot active token positions and compute exact 248,320-vocab base logits
         for local_b, orig_i in enumerate(chunk_indices):
             rec = slot_records[orig_i]
-            # Position 0 is the shared prefix-last state
-            # Followed by suffix states for each candidate c_i that has len(c_targets[c_i]) > 1
             pos_final_h = [out["final_pref_last"][local_b, 0]]
             pos_h63_base = [out["h63_base_pref_last"][local_b, 0]]
             pos_act63 = [out["act63_pref_last"][local_b, 0]]
@@ -137,7 +170,7 @@ def main():
             for c_i in range(4):
                 t_toks = rec["c_targets"][c_i]
                 n_t = len(t_toks)
-                c_pos = [0]  # first token always predicted by pos 0 (prefix-last)
+                c_pos = [0]
                 for m in range(1, n_t):
                     p_idx = len(pos_final_h)
                     c_pos.append(p_idx)
@@ -149,11 +182,9 @@ def main():
                     pos_y62.append(out["y62_suff"][b4, m - 1])
                 cand_pos_indices.append(c_pos)
 
-            stack_final_h = mx.stack(pos_final_h, axis=0)  # [P_s, 5120]
-            logits_full = (stack_final_h @ w_lm.T).astype(mx.float32)  # [P_s, 248320]
-            lse_full = mx.logsumexp(logits_full, axis=-1)  # [P_s]
-            top8_ids = mx.topk(logits_full, k=8, axis=-1)
-            # Note: mx.argpartition or argsort for top-8 indices
+            stack_final_h = mx.stack(pos_final_h, axis=0)
+            logits_full = (stack_final_h @ w_lm.T).astype(mx.float32)
+            lse_full = mx.logsumexp(logits_full, axis=-1)
             top8_idx = mx.argpartition(-logits_full, kth=8, axis=-1)[:, :8]
 
             cand_base_lps = []
@@ -178,7 +209,6 @@ def main():
                 "cand_base_lps": cand_base_lps,
             }
 
-    # Evaluate Base Qwen3.8-27B on both suites
     for s_name, label, n_tasks in [("algo32", "ULTRA_32_SPECS (Algo-32)", 32), ("pyds24", "PYTHON_DS_BENCHMARK_SPECS (PyDS-24)", 24)]:
         slot_correct = 0
         task_pass = 0
@@ -201,7 +231,6 @@ def main():
             flush=True,
         )
 
-    # Assemble flattened position arrays and active vocabulary
     active_vocab_set = set()
     python_kw = [
         "def", "return", "if", "else", "elif", "for", "while", "in", "not",
@@ -219,8 +248,8 @@ def main():
     all_gated63 = []
     all_y62 = []
     all_lse_full = []
+    pos_slot_id_list = []
 
-    # Per candidate (896 total = 224 slots * 4 options): store flat start/len into token table
     cand_tok_pos = []
     cand_tok_target_full = []
     cand_offsets = [0]
@@ -235,6 +264,7 @@ def main():
         all_gated63.append(out_s["gated63"])
         all_y62.append(out_s["y62"])
         all_lse_full.append(out_s["lse_full"])
+        pos_slot_id_list.extend([s_idx] * n_pos)
 
         for tid in out_s["top8_idx"].flatten():
             active_vocab_set.add(int(tid))
@@ -252,21 +282,21 @@ def main():
     active_vocab_ids = np.array(sorted(active_vocab_set), dtype=np.int32)
     vocab_map = {int(tid): i for i, tid in enumerate(active_vocab_ids)}
     cand_tok_target_active = np.array([vocab_map[t] for t in cand_tok_target_full], dtype=np.int32)
+    pos_slot_id = np.array(pos_slot_id_list, dtype=np.int32)
+    pos_task_id = pos_slot_id // 4
 
-    h63_mat = np.concatenate(all_h63, axis=0)  # [N_pos, 5120]
-    act63_mat = np.concatenate(all_act63, axis=0).astype(np.float32)  # [N_pos, 17408]
-    gated63_mat = np.concatenate(all_gated63, axis=0).astype(np.float32)  # [N_pos, 6144]
-    y62_mat = np.concatenate(all_y62, axis=0).astype(np.float32)  # [N_pos, 6144]
-    lse_full_vec = np.concatenate(all_lse_full, axis=0)  # [N_pos]
+    h63_mat = np.concatenate(all_h63, axis=0)
+    act63_mat = np.concatenate(all_act63, axis=0).astype(np.float32)
+    gated63_mat = np.concatenate(all_gated63, axis=0).astype(np.float32)
+    y62_mat = np.concatenate(all_y62, axis=0).astype(np.float32)
+    lse_full_vec = np.concatenate(all_lse_full, axis=0)
 
-    # Extract active lm_head rows and final norm weight
     w_lm_active_mx = w_lm[mx.array(active_vocab_ids, dtype=mx.int32)].astype(mx.float32)
     w_final_norm_mx = eng.weights["model.language_model.norm.weight"].astype(mx.float32)
     mx.eval(w_lm_active_mx, w_final_norm_mx)
-    w_lm_active = np.array(w_lm_active_mx, dtype=np.float32)  # [V_active, 5120]
-    w_final_norm = np.array(w_final_norm_mx, dtype=np.float32)  # [5120]
+    w_lm_active = np.array(w_lm_active_mx, dtype=np.float32)
+    w_final_norm = np.array(w_final_norm_mx, dtype=np.float32)
 
-    # Compute exact residual log-partition lse_rest so LSE(theta=0) == lse_full_vec
     h63_mx = mx.array(h63_mat, dtype=mx.float32)
     final_h_mx = mx.fast.rms_norm(h63_mx, w_final_norm_mx, 1e-6)
     logits_act_mx = final_h_mx @ w_lm_active_mx.T
@@ -276,47 +306,49 @@ def main():
     diff_exp = np.maximum(1e-12, np.exp(lse_full_vec.astype(np.float64)) - np.exp(lse_act.astype(np.float64)))
     lse_rest = np.log(diff_exp).astype(np.float32)
 
-    # Compute unsupervised PCA/SVD bases (using ONLY activations/weights, ZERO labels!)
-    print("[PCA/SVD] Computing unsupervised principal bases for act63, gated63, y62, and 64 layers...", flush=True)
+    # STRICT TRAIN-ONLY SVD BASES (ZERO TEST-SET LEAKAGE!)
+    print("[PCA/SVD] Computing strictly train-isolated principal bases (train40, even, odd)...", flush=True)
     rank_basis = 64
+    train40_set = set(TRAIN_40_TASKS)
+    train40_pos_mask = np.array([int(t) in train40_set for t in pos_task_id], dtype=bool)
+    even_pos_mask = (pos_task_id % 2) == 0
+    odd_pos_mask = (pos_task_id % 2) == 1
 
-    def top_right_singular(mat: np.ndarray, k: int) -> Tuple[np.ndarray, np.ndarray]:
-        # Economy SVD via Gram matrix mat @ mat.T [N_pos, N_pos]
-        gram = mat @ mat.T
-        eigvals, eigvecs = np.linalg.eigh(gram)
-        idx = np.argsort(eigvals)[::-1][:k]
-        s_inv = 1.0 / np.sqrt(np.maximum(eigvals[idx], 1e-8))
-        vt = (eigvecs[:, idx] * s_inv[None, :]).T @ mat  # [k, D]
-        vt = vt / np.maximum(np.linalg.norm(vt, axis=-1, keepdims=True), 1e-8)
-        proj = mat @ vt.T  # [N_pos, k]
-        return vt.astype(np.float32), proj.astype(np.float32)
+    # Primary bases are computed strictly on the 40 Train Tasks (zero positions from the 16 Held-Out Test Tasks!)
+    u_act63, act63_proj = top_right_singular_train_only(act63_mat, train40_pos_mask, rank_basis)
+    u_gated63, gated63_proj = top_right_singular_train_only(gated63_mat, train40_pos_mask, rank_basis)
+    u_y62, y62_proj = top_right_singular_train_only(y62_mat, train40_pos_mask, rank_basis)
 
-    u_act63, act63_proj = top_right_singular(act63_mat, rank_basis)
-    u_gated63, gated63_proj = top_right_singular(gated63_mat, rank_basis)
-    u_y62, y62_proj = top_right_singular(y62_mat, rank_basis)
+    # Fold-isolated bases for 2-Fold Out-of-Sample Cross-Validation
+    u_act63_even, act63_proj_even = top_right_singular_train_only(act63_mat, even_pos_mask, 16)
+    u_act63_odd, act63_proj_odd = top_right_singular_train_only(act63_mat, odd_pos_mask, 16)
+    _, gated63_proj_even = top_right_singular_train_only(gated63_mat, even_pos_mask, 6)
+    _, gated63_proj_odd = top_right_singular_train_only(gated63_mat, odd_pos_mask, 6)
+    _, y62_proj_even = top_right_singular_train_only(y62_mat, even_pos_mask, 6)
+    _, y62_proj_odd = top_right_singular_train_only(y62_mat, odd_pos_mask, 6)
 
-    # Also extract distinct unsupervised right singular directions for all 64 layers' weights (r=16)
+    # Extract distinct unsupervised right singular directions for all 64 layers using ONLY train40 probe states
     r_peft = 16
     layer_down_a = np.zeros((64, r_peft, 17408), dtype=np.float16)
     layer_attn_a = np.zeros((64, r_peft, 6144), dtype=np.float16)
-    probe_vec = mx.array(h63_mat[:64], dtype=mx.bfloat16)  # 64 real coding hidden states [64, 5120]
+    probe_vec = mx.array(h63_mat[train40_pos_mask][:64], dtype=mx.bfloat16)
+    all_true_64 = np.ones(64, dtype=bool)
 
     for l in range(64):
         lp = f"model.language_model.layers.{l}"
-        w_d = eng.weights[f"{lp}.mlp.down_proj.weight"]  # [5120, 17408]
-        # Project coding hidden states through w_d to get layer-specific 17408-D directions
-        v_d = (probe_vec @ w_d).astype(mx.float32)  # [64, 17408]
+        w_d = eng.weights[f"{lp}.mlp.down_proj.weight"]
+        v_d = (probe_vec @ w_d).astype(mx.float32)
         mx.eval(v_d)
-        vt_d, _ = top_right_singular(np.array(v_d, dtype=np.float32), r_peft)
+        vt_d, _ = top_right_singular_train_only(np.array(v_d, dtype=np.float32), all_true_64, r_peft)
         layer_down_a[l] = vt_d.astype(np.float16)
 
         if l % 4 != 3:
-            w_a = eng.weights[f"{lp}.linear_attn.out_proj.weight"]  # [5120, 6144]
+            w_a = eng.weights[f"{lp}.linear_attn.out_proj.weight"]
         else:
-            w_a = eng.weights[f"{lp}.self_attn.o_proj.weight"]  # [5120, 6144]
-        v_a = (probe_vec @ w_a).astype(mx.float32)  # [64, 6144]
+            w_a = eng.weights[f"{lp}.self_attn.o_proj.weight"]
+        v_a = (probe_vec @ w_a).astype(mx.float32)
         mx.eval(v_a)
-        vt_a, _ = top_right_singular(np.array(v_a, dtype=np.float32), r_peft)
+        vt_a, _ = top_right_singular_train_only(np.array(v_a, dtype=np.float32), all_true_64, r_peft)
         layer_attn_a[l] = vt_a.astype(np.float16)
 
     layer_down_a[63] = u_act63[:r_peft].astype(np.float16)
@@ -333,6 +365,17 @@ def main():
         u_act63=u_act63,
         u_gated63=u_gated63,
         u_y62=u_y62,
+        act63_proj_even=act63_proj_even,
+        act63_proj_odd=act63_proj_odd,
+        u_act63_even=u_act63_even,
+        u_act63_odd=u_act63_odd,
+        gated63_proj_even=gated63_proj_even,
+        gated63_proj_odd=gated63_proj_odd,
+        y62_proj_even=y62_proj_even,
+        y62_proj_odd=y62_proj_odd,
+        pos_slot_id=pos_slot_id,
+        train40_tasks=np.array(TRAIN_40_TASKS, dtype=np.int32),
+        heldout16_tasks=np.array(HELD_OUT_TEST_TASKS, dtype=np.int32),
         layer_down_a=layer_down_a,
         layer_attn_a=layer_attn_a,
         w_lm_active=w_lm_active,
@@ -346,8 +389,8 @@ def main():
         cand_base_mean_lp=cand_base_mean_lp,
     )
     print(
-        f"[Done] Saved {cache_path} ({os.path.getsize(cache_path)/(1024*1024):.1f} MB) in {time.time() - t_start:.2f}s! "
-        f"N_pos={h63_mat.shape[0]}, V_active={len(active_vocab_ids)}",
+        f"[Done] Saved leak-free {cache_path} ({os.path.getsize(cache_path)/(1024*1024):.1f} MB) in {time.time() - t_start:.2f}s! "
+        f"N_pos={h63_mat.shape[0]} (Train40_pos={int(train40_pos_mask.sum())}, HeldOut16_pos={int((~train40_pos_mask).sum())}), V_active={len(active_vocab_ids)}",
         flush=True,
     )
 
